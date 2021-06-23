@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@MapperScan("per.hqd")//扫描该包的接口
-public class SpringBootDemoApplication {
+@MapperScan("per.hqd.contentcenter.dao")//扫描该包的接口
+public class ContentApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootDemoApplication.class, args);
+		SpringApplication.run(ContentApplication.class, args);
 	}
 
 }
