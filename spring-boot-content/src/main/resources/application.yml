@@ -1,0 +1,42 @@
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: info,health,metrics,configprops
+info:
+  app-name: spring-boot-demo
+  author: hqd
+  email: xxx@qq.com
+server:
+  port: 8010
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/content_center
+    hikari:
+      username: root
+      password: 263519
+      # >= 6.x: com.mysql.cj.jdbc.Driver
+      # <= 5.x: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+server:
+  tomcat:
+    max-connections: 1000
+    threads:
+      max: 300

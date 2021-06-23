@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/hqd-cloud.iml" filepath="$PROJECT_DIR$/.idea/hqd-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-content/spring-boot-content.iml" filepath="$PROJECT_DIR$/spring-boot-content/spring-boot-content.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-user/spring-boot-user.iml" filepath="$PROJECT_DIR$/spring-boot-user/spring-boot-user.iml" />
+    </modules>
+  </component>
+</project>
