@@ -433,3 +433,12 @@ npm run dev
   ```
 
   
+
+### 编写微服务
+
+1. 分析业务，业务流程图、架构图
+2. 设计api、数据模型（表结构）
+3. 编写
+
+[api文档](https://t.itmuch.com/doc.html#_version_information)
+
