@@ -442,3 +442,10 @@ npm run dev
 
 [api文档](https://t.itmuch.com/doc.html#_version_information)
 
+- RestTemplate
+
+  - 是轻量级http client，用于http调用
+
+  - 内容服务中去调用用户服务时使用
+
+     

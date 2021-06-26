@@ -1,39 +1,30 @@
-package per.hqd.usercenter.domain.entity.user;
+package per.hqd.contentcenter.domain.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "user")
-public class User {
+public class UserDTO {
     /**
      * Id
      */
-    @Id
-    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     /**
      * 微信id
      */
-    @Column(name = "wx_id")
     private String wxId;
 
     /**
      * 微信昵称
      */
-    @Column(name = "wx_nickname")
     private String wxNickname;
 
     /**
@@ -44,19 +35,16 @@ public class User {
     /**
      * 头像地址
      */
-    @Column(name = "avatar_url")
     private String avatarUrl;
 
     /**
      * 创建时间
      */
-    @Column(name = "create_time")
     private Date createTime;
 
     /**
      * 修改时间
      */
-    @Column(name = "update_time")
     private Date updateTime;
 
     /**

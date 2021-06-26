@@ -22,8 +22,9 @@ public class TestController {
         Share share = new Share();
         share.setCreateTime(new Date());
         share.setUpdateTime(new Date());
-        share.setTitle("title");
+        share.setTitle("docker");
         share.setAuthor("hqd");
+        share.setUserId(4);
         shareMapper.insertSelective(share);
         //查询
         List<Share> shares = shareMapper.selectAll();
