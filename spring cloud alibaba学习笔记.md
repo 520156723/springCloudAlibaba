@@ -449,3 +449,42 @@ npm run dev
   - 内容服务中去调用用户服务时使用
 
      
+
+## spring cloud
+
+[spring cloud alibaba](https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md)是spring cloud的子项目
+
+- 版本介绍
+
+  - 语义化版本控制
+
+    GAV中的v，如
+
+    ```xml
+    <version> 2.1.5<version>
+    <!--2表示主版本；1表示次版本，架构无大变化；5表示增量版本，bug修复 -->
+    <!--release：里程碑；SNAPSHOT：开发版；M：里程碑；RELEASE:正式版本 -->
+    ```
+
+    release train 发布列车，按字母顺序
+
+    SR：service release bug修复版本
+
+    顺序：release-》SR1 -》 SR2
+
+- 服务发现组件
+
+  - 服务实例有定时任务向服务发现中心获取注册的服务，用本地缓存中的资源而不是每次调用前都去请求服务发现中心
+
+  - 每个服务实例向服务注册中心发送心跳，服务发现中心由此判断实例状态
+
+- [Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
+  - 是什么？服务发现组件
+  - 使用 
+    - [github地址](https://github.com/alibaba/nacos/releases)
+    - 版本问题：查看spring cloud alibaba的依赖中的nacos client版本是什么，下对应的nacos service
+    - 启动nacos service 默认用户密码都是nacos
+  - 服务注册到nacos
+    - 加依赖 nacos discovery
+    - 写配置 service addr 和 application name
+

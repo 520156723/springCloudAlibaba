@@ -1,15 +1,3 @@
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: info,health,metrics,configprops
-info:
-  app-name: spring-boot-demo
-  author: hqd
-  email: xxx@qq.com
 server:
   port: 8010
 
@@ -24,6 +12,26 @@ spring:
       # >= 6.x: com.mysql.cj.jdbc.Driver
       # <= 5.x: com.mysql.jdbc.Driver
       driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        # nacos的service地址
+        server-addr: localhost:8848
+  application:
+    name: content-center
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# actuator里的info信息
+info:
+  app-name: spring-boot-demo
+  author: hqd
+  email: xxx@qq.com
 ---
 spring:
   config:
