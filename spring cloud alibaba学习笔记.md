@@ -479,12 +479,47 @@ npm run dev
   - 每个服务实例向服务注册中心发送心跳，服务发现中心由此判断实例状态
 
 - [Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
+
   - 是什么？服务发现组件
+
   - 使用 
+
     - [github地址](https://github.com/alibaba/nacos/releases)
     - 版本问题：查看spring cloud alibaba的依赖中的nacos client版本是什么，下对应的nacos service
     - 启动nacos service 默认用户密码都是nacos
+
   - 服务注册到nacos
+
     - 加依赖 nacos discovery
     - 写配置 service addr 和 application name
+
+  - 领域模型
+
+    - 命名空间，不同的namespace是隔离的
+    - 分组，可以把不同微服务 放一个分组里管理
+    - service，每个service都是一个微服务
+    - cluster，一个service可有多个集群。集群可以部署到不同机房，如分别部署到杭州、北京，用来容灾
+    - instance，每个cluster可以有多个实例
+
+  - 元数据
+
+    - 分类
+
+      1. 服务级别元数据
+      2. 集群元数据
+      3. 实例级别元数据
+
+    - 作用
+
+      提供描述信息
+
+      让微服务调用更灵活，实现版本控制 
+
+- Ribbon
+  - 是什么？客户端负载均衡器
+  - 怎么用？
+    - 依赖：nacos discovery就引入了
+    - 注解：往需要整合ribbon的bean上加@LoadBalanced
+    - 配置：无配置
+  - 扩展。如果不满意默认配置，可以通过实现接口二次开发
 

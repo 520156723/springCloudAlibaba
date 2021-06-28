@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,10 +11,6 @@ import per.hqd.contentcenter.dao.content.ShareMapper;
 import per.hqd.contentcenter.domain.dto.content.ShareDTO;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
-
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,22 +21,19 @@ public class ShareService {
 
     private final RestTemplate restTemplate;
 
-    private final DiscoveryClient discoveryClient;
-
     public ShareDTO findById(Integer id) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
         Integer userId = share.getUserId();
-        //获取user-center服务的所有实例
+        /*//获取user-center服务的所有实例
         List<String> targetURLS = this.discoveryClient.getInstances("user-center")
                 .stream()
                 .map(instance -> instance.getUri().toString() + "/users/{id}")
-                .collect(Collectors.toList());
-        //随机获取一个实例
-        int index = ThreadLocalRandom.current().nextInt(targetURLS.size());
-        String targetURL = targetURLS.get(index);
-        log.info("请求的目标地址是：{}", targetURL);
+                .collect(Collectors.toList());*/
+        //用Ribbon随机获取一个实例,Ribbon会自动把user-center自动转换成用户中心在nacos中的地址
+       /* int index = ThreadLocalRandom.current().nextInt(targetURLS.size());
+        String targetURL = targetURLS.get(index);*/
         UserDTO userDTO = this.restTemplate.getForObject(
-                targetURL,
+                "http://user-center/users/{userId}",
                 UserDTO.class,
                 userId
         );
