@@ -13,6 +13,10 @@ import per.hqd.contentcenter.domain.dto.content.ShareDTO;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
 
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -27,12 +31,14 @@ public class ShareService {
     public ShareDTO findById(Integer id) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
         Integer userId = share.getUserId();
-        //获取user-center服务的实例
-        String targetURL = this.discoveryClient.getInstances("user-center")
+        //获取user-center服务的所有实例
+        List<String> targetURLS = this.discoveryClient.getInstances("user-center")
                 .stream()
                 .map(instance -> instance.getUri().toString() + "/users/{id}")
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("当前user-center服务没有实例"));
+                .collect(Collectors.toList());
+        //随机获取一个实例
+        int index = ThreadLocalRandom.current().nextInt(targetURLS.size());
+        String targetURL = targetURLS.get(index);
         log.info("请求的目标地址是：{}", targetURL);
         UserDTO userDTO = this.restTemplate.getForObject(
                 targetURL,
