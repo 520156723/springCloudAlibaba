@@ -522,4 +522,24 @@ npm run dev
     - 注解：往需要整合ribbon的bean上加@LoadBalanced
     - 配置：无配置
   - 扩展。如果不满意默认配置，可以通过实现接口二次开发
+  - 负载均衡规则
+    - 顺序循环获取实例-轮询
+    - 随机实例
+    - 并发请求小的实例
+  - 细粒度配置
+    - java类实现配置@Configuration、@RibbonClient
+    - yml配置文件配置
+
+# 注解
+
+- @Component 加上该注解的类会被扫描到spring容器中进行管理
+- @Bean 代替xml形式的bean初始化
+- @Repository 作用于持久层，有更多的操作数据库异常描述，加上该注解也会被扫描进spring容器
+- @Service 作用于业务层，加上该注解也会被扫描进spring容器
+- @Controller作用于表现层，加上该注解也会被扫描进spring容器
+- @Configuration作用于配置类，代替xml配置去初始化bean常与@Bean配合使用，由于里面有@Component注解，所以也会被spring管理，之后就不再赘述。
+- @SpringBootApplication
+  - @ComponentScan扫描**当前启动类同级的包下**所有带@Component的类
+    - 父子上下文重叠，指的是父子扫同样的包了，可能出现事务不生效等情况
+    - 解决办法：把子上下文要扫的包放到springboot启动类的上一级
 

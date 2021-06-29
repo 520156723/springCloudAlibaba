@@ -19,6 +19,7 @@ spring:
         server-addr: localhost:8848
   application:
     name: content-center
+# actuator配置
 management:
   endpoint:
     health:
@@ -32,6 +33,11 @@ info:
   app-name: spring-boot-demo
   author: hqd
   email: xxx@qq.com
+# ribbon配置
+user-center:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
 ---
 spring:
   config:
