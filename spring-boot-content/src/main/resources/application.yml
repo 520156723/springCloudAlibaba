@@ -34,9 +34,9 @@ info:
   author: hqd
   email: xxx@qq.com
 # ribbon配置
-user-center:
-  ribbon:
-    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+#user-center:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 
 ---
 spring:
