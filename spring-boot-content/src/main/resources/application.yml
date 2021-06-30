@@ -25,7 +25,8 @@ spring:
           version: v1
           #调用目标微服务的版本
           target-version: v1
-        namespace: 80a433f7-255c-4acd-a25b-ad53c7aa1628
+        # 命名空间做隔离
+        #namespace: 80a433f7-255c-4acd-a25b-ad53c7aa1628
   application:
     # 表示本服务的名称
     name: content-center

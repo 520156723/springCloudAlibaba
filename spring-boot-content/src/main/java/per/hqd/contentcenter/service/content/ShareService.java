@@ -32,6 +32,12 @@ public class ShareService {
         //用Ribbon随机获取一个实例,Ribbon会自动把user-center自动转换成用户中心在nacos中的地址
        /* int index = ThreadLocalRandom.current().nextInt(targetURLS.size());
         String targetURL = targetURLS.get(index);*/
+        /**
+         * 现有架构问题
+         * 1.代码不可读
+         * 2.url不好拼接
+         * 3.难以快速迭代
+         */
         UserDTO userDTO = this.restTemplate.getForObject(
                 "http://user-center/users/{userId}",
                 UserDTO.class,
