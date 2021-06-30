@@ -19,6 +19,13 @@ spring:
         server-addr: localhost:8848
         # 该服务所属集群名称
         cluster-name: BJ
+        #元数据 k-v形式去定义
+        metadata:
+          #自己的版本
+          version: v1
+          #调用目标微服务的版本
+          target-version: v1
+        namespace: 80a433f7-255c-4acd-a25b-ad53c7aa1628
   application:
     # 表示本服务的名称
     name: content-center
