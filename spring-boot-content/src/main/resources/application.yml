@@ -17,7 +17,10 @@ spring:
       discovery:
         # nacos的service地址
         server-addr: localhost:8848
+        # 该服务所属集群名称
+        cluster-name: BJ
   application:
+    # 表示本服务的名称
     name: content-center
 # actuator配置
 management:

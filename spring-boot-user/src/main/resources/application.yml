@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   profiles:
@@ -17,6 +17,8 @@ spring:
       discovery:
         # nacos的service地址
         server-addr: localhost:8848
+        # 该服务属于的cluster名称
+        cluster-name: BJ
   application:
     # 服务名称用-而不是_
     name: user-center
