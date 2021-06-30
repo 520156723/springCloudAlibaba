@@ -37,7 +37,10 @@ info:
 #user-center:
 #  ribbon:
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
-
+# ribbon饥饿加载，避免第一次请求过慢
+ribbon:
+  eager-load:
+    clients: user-center #添加用，分割
 ---
 spring:
   config:

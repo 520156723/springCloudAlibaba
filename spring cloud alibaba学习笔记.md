@@ -528,7 +528,11 @@ npm run dev
     - 并发请求小的实例
   - 细粒度配置
     - java类实现配置@Configuration、@RibbonClient
-    - yml配置文件配置
+    - yml配置文件配置（优先级高）
+  - 饥饿加载
+  - 设置权重负载均衡
+    - 值越大，权重越大
+    - 写一个继承AbstractLoadBalancerRule的类，并且改bean。最后改客户端上的权重
 
 # 注解
 
