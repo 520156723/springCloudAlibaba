@@ -559,6 +559,14 @@ npm run dev
   - Decoder：反之
   - Logger：日志管理器：Slf4jLogger
 
+- 细粒度配置日志
+
+  - 四种级别：
+    - NONE（默认）：无日志
+    - BASIC：仅记录请求方法、URL、响应状态码、执行时间
+    - HEADERS：在BASIC基础上加上请求和响应的header
+    - FULL：HEADERS基础下，加上记录请求响应的body、元数据（用于开发环境）
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理

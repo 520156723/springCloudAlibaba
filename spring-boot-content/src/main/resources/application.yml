@@ -30,6 +30,7 @@ spring:
   application:
     # 表示本服务的名称
     name: content-center
+
 # actuator配置
 management:
   endpoint:
@@ -44,6 +45,7 @@ info:
   app-name: spring-boot-demo
   author: hqd
   email: xxx@qq.com
+
 # ribbon配置
 #user-center:
 #  ribbon:
@@ -53,10 +55,12 @@ ribbon:
   eager-load:
     clients: user-center #添加用，分割
 
-# 修改某个包下生成的日志级别
+#修改某个包下生成的日志级别
 logging:
   level:
-    per.hqd: debug
+    #per.hqd: debug
+    # 配置Feign的日志级别，建立在UserCenterFeignClient的日志级别是debug的基础上的
+    per.hqd.contentcenter.feignClient.UserCenterFeignClient: debug
 ---
 spring:
   config:
