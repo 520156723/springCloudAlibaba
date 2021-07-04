@@ -61,6 +61,14 @@ logging:
     #per.hqd: debug
     # 配置Feign的日志级别，建立在UserCenterFeignClient的日志级别是debug的基础上的
     per.hqd.contentcenter.feignClient.UserCenterFeignClient: debug
+
+# Fegin配置
+feign:
+  client:
+    config:
+      # 想调用的服务名
+      user-center:
+        loggerLevel: FULL
 ---
 spring:
   config:
