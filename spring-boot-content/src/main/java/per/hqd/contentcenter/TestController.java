@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import per.hqd.contentcenter.dao.content.ShareMapper;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
+import per.hqd.contentcenter.feignClient.TestBaiduFeignClient;
 import per.hqd.contentcenter.feignClient.TestUserCenterFeignClient;
 
 import java.util.Date;
@@ -22,6 +23,8 @@ public class TestController {
     private final DiscoveryClient discoveryClient;
 
     private final TestUserCenterFeignClient testUserCenterFeignClient;
+
+    private final TestBaiduFeignClient testBaiduFeignClient;
 
     @GetMapping("/test")
     public List<Share> test(){
@@ -56,5 +59,10 @@ public class TestController {
     @PostMapping("/test-post")
     public UserDTO post(@RequestBody UserDTO userDTO){
         return testUserCenterFeignClient.post(userDTO);
+    }
+
+    @GetMapping("/baidu")
+    public String index(){
+        return this.testBaiduFeignClient.index();
     }
 }
