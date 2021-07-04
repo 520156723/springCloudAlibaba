@@ -581,6 +581,29 @@ npm run dev
 
   - Post请求：@PostMapping + @RequestBody 换成@RequestMapping+@RequestBody
 
+- Feign与RestTemplate对比
+
+  Feign可读性、维护性更好
+
+  RestTemplate灵活性和性能更好
+
+  关键是要统一
+
+- Feign性能优化
+
+  - 添加连接池
+
+    feign-httpclient 
+
+  - 日志级别
+
+    建议BASIC
+
+- [Feign常见问题](https://www.imooc.com/article/289005)
+
+  - 用@PathVariable必须指定value属性
+  - FeignClient里的name是可以从配置文件去读取的，支持占位符${feign.name}
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理

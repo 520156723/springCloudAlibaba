@@ -72,6 +72,15 @@ feign:
       # 想调用的服务名
       default:
         loggerLevel: FULL
+  # 使用httpclient去做请求
+  httpclient:
+    enabled: true
+    # Feign的最大连接数
+    max-connections: 200
+    # Feign单个路径最大连接数,即调用同一个接口的同时存在连接数
+    max-connections-per-route: 50
+
+
 ---
 spring:
   config:
