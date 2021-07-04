@@ -549,6 +549,16 @@ npm run dev
 
 - 作用：远程http调用，原本用restTemplate。是一个声明式的http客户端。使调用某个url不再硬编码，而是想springmvc一样的接口调用。
 
+- 源码：
+
+  - Feign入口Feign.Builder（建造者模式），底层请求默认用httpUrlConnection（无连接池，性能不太好）。
+
+  - 优化：todo
+  - 支持springmvc的注解，是用springmvcconstract实现的
+  - Encoder：将client接口对象转成http请求消息体。
+  - Decoder：反之
+  - Logger：日志管理器：Slf4jLogger
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理

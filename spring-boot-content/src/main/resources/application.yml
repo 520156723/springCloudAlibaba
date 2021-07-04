@@ -52,6 +52,11 @@ info:
 ribbon:
   eager-load:
     clients: user-center #添加用，分割
+
+# 修改某个包下生成的日志级别
+logging:
+  level:
+    per.hqd: debug
 ---
 spring:
   config:
