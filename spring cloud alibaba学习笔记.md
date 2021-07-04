@@ -450,7 +450,7 @@ npm run dev
 
      
 
-## spring cloud
+## spring cloud alibaba
 
 [spring cloud alibaba](https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md)是spring cloud的子项目
 
@@ -478,7 +478,7 @@ npm run dev
 
   - 每个服务实例向服务注册中心发送心跳，服务发现中心由此判断实例状态
 
-- [Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
+  ### [Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
 
   - 是什么？服务发现组件
 
@@ -515,7 +515,8 @@ npm run dev
 
       让微服务调用更灵活，实现版本控制 
 
-- Ribbon
+  ### Ribbon
+
   - 是什么？客户端负载均衡器
   - 怎么用？
     - 依赖：nacos discovery就引入了
@@ -542,6 +543,11 @@ npm run dev
   - namespace命名空间
     - 作用：防止跨命名空间调用服务
     - 例子：public的实例不能调用dev的实例
+
+
+### Feign
+
+- 作用：远程http调用，原本用restTemplate。是一个声明式的http客户端。使调用某个url不再硬编码，而是想springmvc一样的接口调用。
 
 # 注解
 
