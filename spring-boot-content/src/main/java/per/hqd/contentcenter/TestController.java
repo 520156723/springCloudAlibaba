@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import per.hqd.contentcenter.dao.content.ShareMapper;
+import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
+import per.hqd.contentcenter.feignClient.TestUserCenterFeignClient;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,8 @@ public class TestController {
     private final ShareMapper shareMapper;
 
     private final DiscoveryClient discoveryClient;
+
+    private final TestUserCenterFeignClient testUserCenterFeignClient;
 
     @GetMapping("/test")
     public List<Share> test(){
@@ -42,5 +45,16 @@ public class TestController {
     @GetMapping("test2")
     public List<ServiceInstance> getInstance(){
        return this.discoveryClient.getInstances("user-center");
+    }
+
+    @GetMapping("test-get")
+    public UserDTO query(UserDTO userDTO){
+        return testUserCenterFeignClient.query(userDTO);
+    }
+
+    //@RequestMapping(value = "/test-post", method = RequestMethod.POST)
+    @PostMapping("/test-post")
+    public UserDTO post(@RequestBody UserDTO userDTO){
+        return testUserCenterFeignClient.post(userDTO);
     }
 }

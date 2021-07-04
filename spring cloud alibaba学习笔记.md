@@ -573,18 +573,47 @@ npm run dev
   - 代码配置灵活，但线上修改需要打包、发布
   - 最佳实现：尽量用属性配置，配置方式要统一
 
+- Feign的继承
+
+  FeignClient和对应的服务的Controller层代码一样，可以用继承去做
+
+  - Get请求：用Feign的继承就不能用@GetMapping+@PathVariable了，而是用@RequestMapping+@RequestParam的形式
+
+  - Post请求：@PostMapping + @RequestBody 换成@RequestMapping+@RequestBody
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
+
 - @Bean 代替xml形式的bean初始化
+
 - @Repository 作用于持久层，有更多的操作数据库异常描述，加上该注解也会被扫描进spring容器
+
 - @Service 作用于业务层，加上该注解也会被扫描进spring容器
+
 - @Controller作用于表现层，加上该注解也会被扫描进spring容器
+
 - @Configuration作用于配置类，代替xml配置去初始化bean常与@Bean配合使用，由于里面有@Component注解，所以也会被spring管理，之后就不再赘述。
+
 - @SpringBootApplication
   - @ComponentScan扫描**当前启动类同级的包下**所有带@Component的类
     - 父子上下文重叠，指的是父子扫同样的包了，可能出现事务不生效等情况
     - 解决办法：把子上下文要扫的包放到springboot启动类的上一级
+  
+  
+  
+- @RestController等同于@Controller、@ResponseBody
+
+  注在类上表示是个Controller
+
+- @PostMapping("/test-post")等同于
+
+  @RequestMapping(value = "/test-post", method = RequestMethod.POST)
+
+  @GetMapping同理
+
+  - @PostMapping和@RequestBody配合传json请求body
+  - @GetMapping和@PathVariable配合传url后的参数
 
 # 技巧
 

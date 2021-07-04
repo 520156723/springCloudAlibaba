@@ -30,6 +30,9 @@ spring:
   application:
     # 表示本服务的名称
     name: content-center
+  # 解决@FeignClient 中name重复的问题
+  main:
+    allow-bean-definition-overriding: true
 
 # actuator配置
 management:
