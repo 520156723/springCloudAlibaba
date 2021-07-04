@@ -6,11 +6,12 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import per.hqd.contentcenter.configuration.GlobalFeignConfiguration;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @MapperScan("per.hqd.contentcenter.dao")//扫描该包的接口
-@EnableFeignClients
+@EnableFeignClients(defaultConfiguration = GlobalFeignConfiguration.class)
 public class ContentApplication {
 
 	public static void main(String[] args) {
