@@ -472,80 +472,76 @@ npm run dev
 
     顺序：release-》SR1 -》 SR2
 
-- 服务发现组件
+### [Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
+
+- 是什么？服务发现组件
 
   - 服务实例有定时任务向服务发现中心获取注册的服务，用本地缓存中的资源而不是每次调用前都去请求服务发现中心
-
   - 每个服务实例向服务注册中心发送心跳，服务发现中心由此判断实例状态
 
-  ### [Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
+- 使用 
 
-  - 是什么？服务发现组件
+  - [github地址](https://github.com/alibaba/nacos/releases)
+  - 版本问题：查看spring cloud alibaba的依赖中的nacos client版本是什么，下对应的nacos service
+  - 启动nacos service 默认用户密码都是nacos
 
-  - 使用 
+- 服务注册到nacos
 
-    - [github地址](https://github.com/alibaba/nacos/releases)
-    - 版本问题：查看spring cloud alibaba的依赖中的nacos client版本是什么，下对应的nacos service
-    - 启动nacos service 默认用户密码都是nacos
+  - 加依赖 nacos discovery
+  - 写配置 service addr 和 application name
 
-  - 服务注册到nacos
+- 领域模型
 
-    - 加依赖 nacos discovery
-    - 写配置 service addr 和 application name
+  - 命名空间，不同的namespace是隔离的
+  - 分组，可以把不同微服务 放一个分组里管理
+  - service，每个service都是一个微服务
+  - cluster，一个service可有多个集群。集群可以部署到不同机房，如分别部署到杭州、北京，用来容灾
+  - instance，每个cluster可以有多个实例
 
-  - 领域模型
+- 元数据
 
-    - 命名空间，不同的namespace是隔离的
-    - 分组，可以把不同微服务 放一个分组里管理
-    - service，每个service都是一个微服务
-    - cluster，一个service可有多个集群。集群可以部署到不同机房，如分别部署到杭州、北京，用来容灾
-    - instance，每个cluster可以有多个实例
+  - 分类
 
-  - 元数据
+    1. 服务级别元数据
+    2. 集群元数据
+    3. 实例级别元数据
 
-    - 分类
+  - 作用
 
-      1. 服务级别元数据
-      2. 集群元数据
-      3. 实例级别元数据
+    提供描述信息
 
-    - 作用
+    让微服务调用更灵活，实现版本控制 
 
-      提供描述信息
+### Ribbon
 
-      让微服务调用更灵活，实现版本控制 
+- 是什么？客户端负载均衡器
+- 怎么用？
+  - 依赖：nacos discovery就引入了
+  - 注解：往需要整合ribbon的bean上加@LoadBalanced
+  - 配置：无配置
+- 扩展。如果不满意默认配置，可以通过实现接口二次开发
+- 负载均衡规则
+  - 顺序循环获取实例-轮询
+  - 随机实例
+  - 并发请求小的实例
+- 细粒度配置
+  - java类实现配置@Configuration、@RibbonClient
+  - yml配置文件配置（优先级高）
+- 饥饿加载
+- 设置权重负载均衡
+  - 值越大，权重越大
+  - 写一个继承AbstractLoadBalancerRule的类，并且改bean。最后改客户端上的权重
+- nacos集群容灾
+  - 作用：多个集群，一个集群表示某个地区的所有实例，该地区地震了导致不可用，可以找另一个集群的实例。
+  - 举例子：内容中心在北京，会优先调用北京的用户中心，如果北京的用户中心挂了，就会调用南京的用户中心。
+- 元数据
+  - 作用：指定本服务只能调用指定版本的微服务
+  - 例子：v1的用户中心只能调用v1版本的内容中心
+- namespace命名空间
+  - 作用：防止跨命名空间调用服务
+  - 例子：public的实例不能调用dev的实例
 
-  ### Ribbon
-
-  - 是什么？客户端负载均衡器
-  - 怎么用？
-    - 依赖：nacos discovery就引入了
-    - 注解：往需要整合ribbon的bean上加@LoadBalanced
-    - 配置：无配置
-  - 扩展。如果不满意默认配置，可以通过实现接口二次开发
-  - 负载均衡规则
-    - 顺序循环获取实例-轮询
-    - 随机实例
-    - 并发请求小的实例
-  - 细粒度配置
-    - java类实现配置@Configuration、@RibbonClient
-    - yml配置文件配置（优先级高）
-  - 饥饿加载
-  - 设置权重负载均衡
-    - 值越大，权重越大
-    - 写一个继承AbstractLoadBalancerRule的类，并且改bean。最后改客户端上的权重
-  - nacos集群容灾
-    - 作用：多个集群，一个集群表示某个地区的所有实例，该地区地震了导致不可用，可以找另一个集群的实例。
-    - 举例子：内容中心在北京，会优先调用北京的用户中心，如果北京的用户中心挂了，就会调用南京的用户中心。
-  - 元数据
-    - 作用：指定本服务只能调用指定版本的微服务
-    - 例子：v1的用户中心只能调用v1版本的内容中心
-  - namespace命名空间
-    - 作用：防止跨命名空间调用服务
-    - 例子：public的实例不能调用dev的实例
-
-
-### Feign
+### [Feign](https://github.com/OpenFeign/feign)
 
 - 作用：远程http调用，原本用restTemplate。是一个声明式的http客户端。使调用某个url不再硬编码，而是想springmvc一样的接口调用。
 
@@ -566,6 +562,16 @@ npm run dev
     - BASIC：仅记录请求方法、URL、响应状态码、执行时间
     - HEADERS：在BASIC基础上加上请求和响应的header
     - FULL：HEADERS基础下，加上记录请求响应的body、元数据（用于开发环境）
+
+- 二次开发
+
+  - 连接超时时间、解码编码器、拦截器等
+
+- 比较
+
+  - 属性配置简单，
+  - 代码配置灵活，但线上修改需要打包、发布
+  - 最佳实现：尽量用属性配置，配置方式要统一
 
 # 注解
 
