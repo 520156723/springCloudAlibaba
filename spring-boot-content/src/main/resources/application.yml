@@ -67,7 +67,7 @@ feign:
   client:
     config:
       # 想调用的服务名
-      user-center:
+      default:
         loggerLevel: FULL
 ---
 spring:
