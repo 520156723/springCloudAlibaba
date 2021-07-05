@@ -482,8 +482,12 @@ npm run dev
 - 使用 
 
   - [github地址](https://github.com/alibaba/nacos/releases)
+
   - 版本问题：查看spring cloud alibaba的依赖中的nacos client版本是什么，下对应的nacos service
+
   - 启动nacos service 默认用户密码都是nacos
+
+    解压下载包后进入bin，启动shutdown.cmd
 
 - 服务注册到nacos
 
@@ -604,6 +608,43 @@ npm run dev
   - 用@PathVariable必须指定value属性
   - FeignClient里的name是可以从配置文件去读取的，支持占位符${feign.name}
 
+### [Sentinel](https://sentinelguard.io/zh-cn/)
+
+- 雪崩cascading failure
+
+  某个服务挂了导致调用链上的服务都挂了
+
+  一般是一个线程等待太久，导致资源不足
+
+- 容错方案
+
+  - 超时，缩短等待超时时间
+  - 限流，超过阈值的请求直接拒绝
+  - 仓壁模式，做隔离，比如每个controller一个线程池，池满走拒绝策略，不影响其他controller
+  - [断路器模式](https://martinfowler.com/bliki/CircuitBreaker.html)，如果某个接口调用失败超过阈值，就会切成断路器打开状态，不去调用该接口，过了某个设定时间后，断路器变成半开状态，允许调用一次接口，如果成功就把断路器关闭，失败则保持断路器打开状态，等待下一次变成半开状态。
+  - 是什么？轻量级的流量控制、熔断降级Java库
+  - 怎么用？只要加依赖，验证整合成功：actuator/sentinel
+
+- [Sentinel控制台 ](https://github.com/alibaba/Sentinel/releases)
+
+  - 下载jar包，之前java -jar启动，账号密码都是sentinel
+  - yml加配置
+
+- 流控
+
+  - 直接流控：自己接口的QPS、线程数达到阈值就拒绝请求
+
+  - 关联流控：关联接口QPS达到阈值就让自己拒绝被请求
+    - 使用场景：（保护关联资源）修改接口如果频繁请求，就应该限流查询接口
+  - 链路流控（细粒度）：指定链路（资源）上的流量超过阈值就限流
+    - 需要注解@SentinelResource("common")，被注解的接口作为common资源，如果这个请求的某个接口超阈值就限流这个接口
+  - 拒绝策略
+    - 快速失败：即直接丢弃请求，抛异常
+    - Warm Up（预热）：先是把阈值设定为 阈值/codeFactor，缓慢增加阈值，预热时长结束后才达到满阈值。
+      - 场景：秒杀场景，防止qps激增打挂微服务，让他慢慢增。
+    - 排队等待：阈值类型需要是QPS，请求超阈值后排队等待，超过等待时间就抛弃请求。
+      - 场景：突发流量，一会多流量一会又少流量，使流量匀速通过而又不丢失请求
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
@@ -647,3 +688,5 @@ npm run dev
 - 字符串的比较相等用Objects.equals(a, b)更安全
 
 - 集合判空CollectionUtils.isEmpty(list)
+
+- 看依赖版本用Dependency Analyzer

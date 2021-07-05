@@ -10,6 +10,7 @@ import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
 import per.hqd.contentcenter.feignClient.TestBaiduFeignClient;
 import per.hqd.contentcenter.feignClient.TestUserCenterFeignClient;
+import per.hqd.contentcenter.service.content.TestService;
 
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,8 @@ public class TestController {
     private final TestUserCenterFeignClient testUserCenterFeignClient;
 
     private final TestBaiduFeignClient testBaiduFeignClient;
+
+    private final TestService testService;
 
     @GetMapping("/test")
     public List<Share> test(){
@@ -64,5 +67,17 @@ public class TestController {
     @GetMapping("/baidu")
     public String index(){
         return this.testBaiduFeignClient.index();
+    }
+
+    @GetMapping("test-a")
+    public String testA(){
+        this.testService.common();
+        return "test-a";
+    }
+
+    @GetMapping("test-b")
+    public String testB(){
+        this.testService.common();
+        return "test-b";
     }
 }

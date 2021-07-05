@@ -27,6 +27,11 @@ spring:
           target-version: v1
         # 命名空间做隔离
         #namespace: 80a433f7-255c-4acd-a25b-ad53c7aa1628
+    # Sentinel配置
+    sentinel:
+      transport:
+        # 指定Sentinel控制台的地址
+        dashboard: localhost:8080
   application:
     # 表示本服务的名称
     name: content-center
@@ -79,7 +84,6 @@ feign:
     max-connections: 200
     # Feign单个路径最大连接数,即调用同一个接口的同时存在连接数
     max-connections-per-route: 50
-
 
 ---
 spring:
