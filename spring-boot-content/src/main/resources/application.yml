@@ -30,8 +30,14 @@ spring:
     # Sentinel配置
     sentinel:
       transport:
-        # 指定Sentinel控制台的地址
+        # 指定Sentinel控制台的地址(控制台页面)
         dashboard: localhost:8080
+        # 指定和控制台通信的IP，不配置会自动选择一个ip注册
+        client-ip: 127.0.0.1
+        # 指定控制台和本微服务通信的端口，默认8719
+        port: 8719
+        # 心跳发送周期
+        heartbeat-interval-ms: 10000
   application:
     # 表示本服务的名称
     name: content-center

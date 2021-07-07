@@ -1,5 +1,6 @@
 package per.hqd.contentcenter;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -80,4 +81,14 @@ public class TestController {
         this.testService.common();
         return "test-b";
     }
+
+    @GetMapping("/test-hot")
+    @SentinelResource("hot")
+    public String testHot(
+            @RequestParam(required = false) String a,
+            @RequestParam(required = false) String b
+    ){
+        return a + " " + b;
+    }
+
 }
