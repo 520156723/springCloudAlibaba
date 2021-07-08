@@ -690,6 +690,19 @@ npm run dev
 
     - 指定某个资源只允许某个微服务访问。或者不允许某个微服务访问
 
+- Sentinel API
+
+  - SphU
+    - 定义资源，并让资源受到监控，限流资源
+  - Tracer
+    - 对异常进行统计
+  - ContextUtil
+    - 实现调用来源，标记调用 
+
+- SentinelResource注解
+
+  - 
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理

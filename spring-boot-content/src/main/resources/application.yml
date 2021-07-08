@@ -29,6 +29,9 @@ spring:
         #namespace: 80a433f7-255c-4acd-a25b-ad53c7aa1628
     # Sentinel配置
     sentinel:
+      filter:
+        # 打开/关闭掉对Spring MVC端点的保护
+        enabled: false
       transport:
         # 指定Sentinel控制台的地址(控制台页面)
         dashboard: localhost:8080
