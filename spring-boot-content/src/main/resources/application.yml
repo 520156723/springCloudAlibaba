@@ -48,6 +48,12 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+# restTemplate
+resttemplate:
+  sentinel:
+    # 关闭@SentinelRestTemplate注解
+    enabled: false
+
 # actuator配置
 management:
   endpoint:

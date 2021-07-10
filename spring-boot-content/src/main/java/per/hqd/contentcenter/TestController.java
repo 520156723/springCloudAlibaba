@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import per.hqd.contentcenter.dao.content.ShareMapper;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
@@ -38,6 +39,8 @@ public class TestController {
     private final TestBaiduFeignClient testBaiduFeignClient;
 
     private final TestService testService;
+
+    private final RestTemplate restTemplate;
 
     @GetMapping("/test")
     public List<Share> test() {
@@ -146,6 +149,16 @@ public class TestController {
             throw new IllegalArgumentException("a cannot be blank");
         }
         return a;
+    }
+
+
+    @GetMapping("/test/restTemplate-sentinel/{userId}")
+    public UserDTO test(@PathVariable Integer userId){
+        return this.restTemplate.getForObject(
+                "http://user-center/users/{userId}",
+                UserDTO.class,
+                userId
+        );
     }
 
 

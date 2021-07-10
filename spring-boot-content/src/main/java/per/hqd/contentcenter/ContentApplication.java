@@ -2,6 +2,7 @@ package per.hqd.contentcenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.alibaba.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ public class ContentApplication {
 	// 等同于 <bean id="restTemplate" class="xxx.RestTemplate">
 	@Bean
 	@LoadBalanced
+	@SentinelRestTemplate
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
 	}

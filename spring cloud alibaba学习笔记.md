@@ -701,6 +701,30 @@ npm run dev
 
 - SentinelResource注解
 
+  - 定义资源
+  - 对资源限流
+  
+- RestTemplate整合Sentinel
+
+  - 往RestTemplate的bean里加上@SentinelRestTemplate
+
+  - ```java
+    // @SentinelRestTemplate注解中blockHandler、fallback实现异常信息的
+    // 用法同@SentinelResource
+    @Target({ElementType.METHOD})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    public @interface SentinelRestTemplate {
+        String blockHandler() default "";
+    
+        Class<?> blockHandlerClass() default void.class;
+    
+        String fallback() default "";
+    
+        Class<?> fallbackClass() default void.class;
+    }
+    ```
+
   - 
 
 # 注解
