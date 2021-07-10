@@ -47,7 +47,9 @@ spring:
   # 解决@FeignClient 中name重复的问题
   main:
     allow-bean-definition-overriding: true
-
+  # 控制springaop启动
+  aop:
+    auto: true
 # restTemplate
 resttemplate:
   sentinel:
