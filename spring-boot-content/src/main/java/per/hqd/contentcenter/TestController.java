@@ -162,4 +162,9 @@ public class TestController {
     }
 
 
+    @GetMapping("/testaop")
+    public String testAop(){
+        return "执行testAop";
+    }
+
 }
