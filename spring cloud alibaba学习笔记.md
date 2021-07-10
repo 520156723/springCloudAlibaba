@@ -725,7 +725,14 @@ npm run dev
     }
     ```
 
-  - 
+  - 源码SentinelBeanPostProcessor类中。
+
+- Feign整合Sentinel
+
+  - 配置文件开启
+  - 限流
+  - 处理异常
+  - 源码org.springframework.cloud.alibaba.sentinel.feign.SentinelFeign
 
 # 注解
 
@@ -762,6 +769,8 @@ npm run dev
   - @GetMapping和@PathVariable配合传url后的参数
 
 - @RequestParam与@GetMapping配合表示传入一个参数，@RequestParam（required = false）表示不是必填
+
+- @Aspect 注解使用实现aop
 
 # 技巧
 

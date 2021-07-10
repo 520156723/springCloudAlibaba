@@ -52,6 +52,7 @@ spring:
     auto: true
 # restTemplate
 resttemplate:
+  # resttemplate整合sentinel
   sentinel:
     # 关闭@SentinelRestTemplate注解
     enabled: false
@@ -101,6 +102,9 @@ feign:
     max-connections: 200
     # Feign单个路径最大连接数,即调用同一个接口的同时存在连接数
     max-connections-per-route: 50
+  sentinel:
+    # 为Feign整合Sentinel
+    enabled: true
 
 ---
 spring:
