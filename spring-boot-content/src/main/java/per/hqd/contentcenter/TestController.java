@@ -14,6 +14,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import per.hqd.contentcenter.annotation.HqdAop;
 import per.hqd.contentcenter.dao.content.ShareMapper;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
@@ -72,7 +73,7 @@ public class TestController {
         return testUserCenterFeignClient.query(userDTO);
     }
 
-    //@RequestMapping(value = "/test-post", method = RequestMethod.POST)
+    //@RequestMapping(value = "/test1-post", method = RequestMethod.POST)
     @PostMapping("/test-post")
     public UserDTO post(@RequestBody UserDTO userDTO) {
         return testUserCenterFeignClient.post(userDTO);
@@ -86,13 +87,13 @@ public class TestController {
     @GetMapping("test-a")
     public String testA() {
         this.testService.common();
-        return "test-a";
+        return "test1-a";
     }
 
     @GetMapping("test-b")
     public String testB() {
         this.testService.common();
-        return "test-b";
+        return "test1-b";
     }
 
     @GetMapping("/test-hot")
@@ -108,8 +109,8 @@ public class TestController {
     public String testSentinelAPI(
             @RequestParam(required = false) String a) {
 
-        String resourceName = "test-sentinel-api";
-        ContextUtil.enter(resourceName, "test-wfw");
+        String resourceName = "test1-sentinel-api";
+        ContextUtil.enter(resourceName, "test1-wfw");
 
         // 定义一个sentinel保护的资源，名称是test-sentinel-api
         Entry entry = null;
@@ -140,7 +141,7 @@ public class TestController {
     }
 
     @GetMapping("/test-sentinel-resource")
-    @SentinelResource(value = "test-sentinel-api",
+    @SentinelResource(value = "test1-sentinel-api",
             blockHandler = "block",
             blockHandlerClass = TestControllerBlockHandlerClass.class)//定义保护的资源，2block方法用于捕捉异常
     public String testSentinelResource(@RequestParam(required = false) String a) {
@@ -162,8 +163,14 @@ public class TestController {
     }
 
 
-    @GetMapping("/testaop")
-    public String testAop(){
+    @GetMapping("/testaop1")
+    public String testAop1(){
+        return "执行testAop";
+    }
+
+    @GetMapping("/testaop2")
+    @HqdAop(name = "testAop2")
+    public String testAop2(){
         return "执行testAop";
     }
 
