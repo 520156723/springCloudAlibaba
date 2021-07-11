@@ -2,11 +2,10 @@ package per.hqd.contentcenter.sentineltest;
 
 import com.alibaba.csp.sentinel.adapter.servlet.callback.RequestOriginParser;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component
+//@Component
 public class MyRequestOriginParser implements RequestOriginParser {
     @Override
     public String parseOrigin(HttpServletRequest request) {

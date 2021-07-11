@@ -782,6 +782,14 @@ npm run dev
   - 标记请求来源，对某些来源进行流控
   - 授权规则里的流控应用需要来源
 
+- sentinel对Restful URL支持
+
+  - 背景：/share/1 配置的规则对 /share/2不生效，我们想同一类的url用同一种规则
+
+    如/share/{number}用同一种
+
+  - 实现UrlCleaner接口 
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
