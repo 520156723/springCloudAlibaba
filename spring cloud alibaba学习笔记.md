@@ -767,9 +767,10 @@ npm run dev
 
   - 阿里云的[AHAS](https://ahas.console.aliyun.com/)可做规则持久化 
 
-- 集群流控
+- [集群流控](https://github.com/alibaba/Sentinel/wiki/集群流控)
 
-  
+  - 依赖token server和token client，每个微服务都是一个token client
+  - 目前不可用于生产环境，废弃
 
 # 注解
 
