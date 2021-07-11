@@ -701,6 +701,8 @@ npm run dev
 
 - SentinelResource注解
 
+  - 同Sentinel API的功能一样，但更简洁
+  
   - 定义资源
   - 对资源限流
   
@@ -733,6 +735,14 @@ npm run dev
   - 限流
   - 处理异常
   - 源码org.springframework.cloud.alibaba.sentinel.feign.SentinelFeign
+
+- 规则持久化
+
+  - 防止每次重启服务就要重新配置规则
+  - 拉模式
+    - 控制台把规则推给微服务，微服务保存为本地文件
+      - 这里用到了Java SPI（[Service Provider Interface)](https://www.cnblogs.com/warehouse/p/9335530.html)
+  - - 
 
 # 注解
 
