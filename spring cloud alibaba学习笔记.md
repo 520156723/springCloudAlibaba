@@ -739,10 +739,29 @@ npm run dev
 - 规则持久化
 
   - 防止每次重启服务就要重新配置规则
+
   - 拉模式
+
     - 控制台把规则推给微服务，微服务保存为本地文件
       - 这里用到了Java SPI（[Service Provider Interface)](https://www.cnblogs.com/warehouse/p/9335530.html)
-  - - 
+
+  - 推模式
+
+    - nacos做配置中心
+
+    - 变化
+
+      sentinel控制台不再直接跟微服务中的sentinel客户端直接交互，而是跟远程配置中心交互（nacos），把规则推到nacos上，sentinel客户端从nacos上获取规则，并监听nacos上的规则变更
+
+    - 使用
+
+      [懒人包](https://github.com/eacdy/Sentinel-Dashboard-Nacos/releases)
+
+      nacos 控制台中会增加该配置
+
+    - 优点：一致性好、性能好
+
+    - 缺点：改动多、麻烦、引入额外依赖
 
 # 注解
 
