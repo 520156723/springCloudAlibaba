@@ -88,10 +88,10 @@
 <!--			<artifactId>sentinel-datasource-extension</artifactId>-->
 <!--		</dependency>-->
 		<!--Sentinel，规则持久化：推模式-->
-		<dependency>
-			<groupId>com.alibaba.csp</groupId>
-			<artifactId>sentinel-datasource-nacos</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.csp</groupId>-->
+<!--			<artifactId>sentinel-datasource-nacos</artifactId>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<dependencyManagement>

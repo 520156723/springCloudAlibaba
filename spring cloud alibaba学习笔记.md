@@ -763,6 +763,14 @@ npm run dev
 
     - 缺点：改动多、麻烦、引入额外依赖
 
+- 生产环境使用sentinel
+
+  - 阿里云的[AHAS](https://ahas.console.aliyun.com/)可做规则持久化 
+
+- 集群流控
+
+  
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
