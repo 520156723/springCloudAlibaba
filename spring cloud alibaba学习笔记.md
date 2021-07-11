@@ -781,6 +781,7 @@ npm run dev
 
   - 标记请求来源，对某些来源进行流控
   - 授权规则里的流控应用需要来源
+  - 实现RequestOriginParser
 
 - sentinel对Restful URL支持
 
@@ -788,7 +789,13 @@ npm run dev
 
     如/share/{number}用同一种
 
-  - 实现UrlCleaner接口 
+  - 实现UrlCleaner接口 ，底层是SphU定义了同一资源
+
+- 本质
+
+  UrlBlockHandler、RequestOriginParser、UrlCleaner都是基于spring mvc 的过滤器
+
+  源码CommonFilter
 
 # 注解
 
