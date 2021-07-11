@@ -772,6 +772,11 @@ npm run dev
   - 依赖token server和token client，每个微服务都是一个token client
   - 目前不可用于生产环境，废弃
 
+- 错误页优化
+
+  - 区分限流、降级的异常，页面上显示不同信息
+  - 处理：继承UrlBlockHandler（新版本升级为BlockExceptionHandler ）
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理

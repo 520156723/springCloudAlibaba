@@ -31,7 +31,7 @@ spring:
     sentinel:
       filter:
         # 打开/关闭掉对Spring MVC端点的保护
-        enabled: false
+        enabled: true
       transport:
         # 指定Sentinel控制台的地址(控制台页面)
         dashboard: localhost:8080
