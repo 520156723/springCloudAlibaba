@@ -777,6 +777,11 @@ npm run dev
   - 区分限流、降级的异常，页面上显示不同信息
   - 处理：继承UrlBlockHandler（新版本升级为BlockExceptionHandler ）
 
+- 区分请求来源
+
+  - 标记请求来源，对某些来源进行流控
+  - 授权规则里的流控应用需要来源
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
