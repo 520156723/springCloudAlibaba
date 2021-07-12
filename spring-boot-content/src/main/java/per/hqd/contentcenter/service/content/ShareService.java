@@ -8,10 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import per.hqd.contentcenter.dao.content.ShareMapper;
+import per.hqd.contentcenter.domain.dto.content.ShareAuditDTO;
 import per.hqd.contentcenter.domain.dto.content.ShareDTO;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
 import per.hqd.contentcenter.feignClient.UserCenterFeignClient;
+
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -31,6 +34,22 @@ public class ShareService {
         BeanUtils.copyProperties(share, shareDTO);
         shareDTO.setWxNickName(userDTO.getWxNickname());
         return shareDTO;
+    }
+
+    public Share auditById(Integer id, ShareAuditDTO auditDTO){
+        Share share = this.shareMapper.selectByPrimaryKey(id);
+        if (share == null) {
+            throw new IllegalArgumentException("参数非法！该分享不存在");
+        }
+        //只有未审核状态才能审核
+        if(!Objects.equals(share.getAuditStatus(), "NOT_YET")){
+            throw new IllegalArgumentException("该分享已经审核");
+        }
+        //修改审核状态
+        share.setAuditStatus(auditDTO.getAuditStatusEnum().toString());
+        this.shareMapper.updateByPrimaryKey(share);
+        //todo 给发布人加积分
+        return share;
     }
 
 

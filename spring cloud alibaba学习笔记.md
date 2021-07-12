@@ -799,6 +799,13 @@ npm run dev
 
 - [常用配置项](https://www.imooc.com/article/289562)
 
+### 引入MQ
+
+- 作用：把耗时操作异步返回
+- spring 里的异步
+  - @Async
+  - WebClient
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
