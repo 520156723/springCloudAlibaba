@@ -802,9 +802,69 @@ npm run dev
 ### 引入MQ
 
 - 作用：把耗时操作异步返回
+
 - spring 里的异步
+
   - @Async
   - WebClient
+
+- 适用场景
+
+  - 异步处理
+  - 流量削峰填谷
+  - 微服务解耦
+
+- [各种MQ对比](https://www.imooc.com/article/290040)
+
+- [RocketMQ搭建](https://www.imooc.com/article/290089)
+
+  - 两个服务启动
+
+    1.name server
+
+    2.broker
+
+  - [控制台搭建](https://www.imooc.com/article/290092)
+
+    `java -jar D:\microservice\rocketmq-all-4.5.1-bin-release\bin\rocketmq-console-ng-1.0.1.jar`
+
+    [控制台文档](https://github.com/apache/rocketmq-externals/blob/master/rocketmq-console/doc/1_0_0/UserGuide_CN.md)
+
+- 术语与概念
+
+  - 主题（Topic）
+
+    一类消息的集合（类比广播的电台频道89.7）
+
+  - 消息模型
+
+    生产者（Producer）：生产消息
+
+    消费者（Consumer）：消费消息
+
+    消息代理（Borker）：消息代理，存储消息、转发消息
+
+  - 部署结构
+
+    Name Server(名字服务)：生产者消费者通过名字服务找到各主题相应的Broker IP列表
+
+    Broker Server（代理服务器）：消息中转角色，负责存储消息和转发消息
+
+  - 消费模式
+
+    拉模式：由消费者从broker server拉消息
+
+    推模式：由broker server主动推送给消费端
+
+  - 传播模式
+
+    集群：同组的消费者平均分摊消息
+
+    广播：同组的消费者都接收到同样消息
+
+  - 消息类型
+
+    普通消息、顺序消息、定时/延时消息、事务消息
 
 # 注解
 
