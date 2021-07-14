@@ -866,6 +866,22 @@ npm run dev
 
     普通消息、顺序消息、定时/延时消息、事务消息
 
+    
+
+- [Rocket开发指南](https://git.imooc.com/coding-358/rocketmq-dev-guide)
+
+- 编写生产者
+
+  group放在配置
+
+  xxxTemplate springboot的消息队列工具，xxx表示任意mq
+
+- 编写消费者
+
+  group放在@RocketMQMessageListener注解中
+
+  @xxxMessageListener 是spring编写消费者的工具类，xxx表示任意mq
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
