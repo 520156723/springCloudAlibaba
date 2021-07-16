@@ -3,21 +3,27 @@ package per.hqd.contentcenter.service.content;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import per.hqd.contentcenter.dao.content.ShareMapper;
+import per.hqd.contentcenter.dao.rocketmqTransactionLogMapper.RocketmqTransactionLogMapper;
 import per.hqd.contentcenter.domain.dto.content.ShareAuditDTO;
 import per.hqd.contentcenter.domain.dto.content.ShareDTO;
 import per.hqd.contentcenter.domain.dto.messaging.UserAddBonusMsgDTO;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
+import per.hqd.contentcenter.domain.entity.rocketmqTransactionLogMapper.RocketmqTransactionLog;
+import per.hqd.contentcenter.domain.enums.AuditStatusEnum;
 import per.hqd.contentcenter.feignClient.UserCenterFeignClient;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -30,6 +36,8 @@ public class ShareService {
 
     private final RocketMQTemplate rocketMQTemplate;
 
+    private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
+
     public ShareDTO findById(Integer id) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
         Integer userId = share.getUserId();
@@ -41,7 +49,11 @@ public class ShareService {
         return shareDTO;
     }
 
-    @Transactional(rollbackFor = Exception.class)//当发生异常时，数据库操作回滚
+    /**
+     * @param id       share表id
+     * @param auditDTO 要修改的审核状态和原因包装体
+     * @return
+     */
     public Share auditById(Integer id, ShareAuditDTO auditDTO) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
         if (share == null) {
@@ -51,21 +63,63 @@ public class ShareService {
         if (!Objects.equals(share.getAuditStatus(), "NOT_YET")) {
             throw new IllegalArgumentException("该分享已经审核");
         }
-        //修改审核状态
-        share.setAuditStatus(auditDTO.getAuditStatusEnum().toString());
-        this.shareMapper.updateByPrimaryKey(share);
-        if ("PASS".equals(auditDTO.getAuditStatusEnum().toString())) {
-            UserAddBonusMsgDTO msg = UserAddBonusMsgDTO.builder()
-                    .userId(share.getUserId())
-                    .bonus(50)
-                    .build();
-            //如果通过审核，把消息发送到消息队列，让用户中心消费，并且加积分。发给add-bonus，第二个参数是消息体
-            rocketMQTemplate.convertAndSend("add-bonus", msg);
-            log.info("发送消息{}给主题add-bonus", msg.toString());
+
+        if (AuditStatusEnum.PASS.equals(auditDTO.getAuditStatusEnum())) {
+            // 如果通过审核，把消息发送到消息队列，让用户中心消费，并且加积分。发给add-bonus
+            // 发送半消息
+            String transactionId = UUID.randomUUID().toString();
+            this.rocketMQTemplate.sendMessageInTransaction(
+                    "tx-add-bonus-group",
+                    "add-bonus",
+                    MessageBuilder
+                            // 放入消息对象
+                            .withPayload(
+                                    UserAddBonusMsgDTO.builder()
+                                            .userId(share.getUserId())
+                                            .bonus(50)
+                                            .build()
+                            )
+                            //
+                            .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+                            .setHeader("shareId", id)
+                            .build(),
+                    // arg额外参数, 埋点用来做修改审核
+                    auditDTO
+            );
+        }else {
+            // 拒绝时
+            auditByIdInDB(id, auditDTO);
         }
-        // 假如还有一段业务逻辑，并且出了异常，如果用spring的@Transactional会出现，数据库更新审核状态回滚，但是mq加积分消息发送成功
-        // 业务逻辑阿巴啊巴
         return share;
+    }
+
+    /**
+     * 修改审核状态
+     * @param id share.id
+     * @param auditDTO 修改内容
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void auditByIdInDB(Integer id, ShareAuditDTO auditDTO) {
+        Share share = Share.builder()
+                .id(id)
+                .auditStatus(auditDTO.getAuditStatusEnum().toString())
+                .reason(auditDTO.getReason())
+                .build();
+        // updateByPrimaryKey会全字段更新包括null字段，而updateByPrimaryKeySelective只更新share中非空的字段
+        this.shareMapper.updateByPrimaryKeySelective(share);
+        // TODO 把share写进缓存
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void auditByIdWithRocketMqLog(Integer id, ShareAuditDTO auditDTO, String transactionId) {
+        auditByIdInDB(id, auditDTO);
+        // 如果修改失败的，事务回滚走不到下面的代码，rocketmqlog表中就不会有记录
+        this.rocketmqTransactionLogMapper.insertSelective(
+                RocketmqTransactionLog.builder()
+                .transactionId(transactionId)
+                .log("审核分享。。。")
+                .build()
+        );
     }
 
 
