@@ -882,6 +882,30 @@ npm run dev
 
   @xxxMessageListener 是spring编写消费者的工具类，xxx表示任意mq
 
+- rocketmq事务消息（二次确认）
+
+  - 术语
+
+    - 半消息：被标记为暂时无法消费的消息
+    - 消息回查：当MQ Server 发现消息长时间处于半消息状态，回去向生产者发送请求，询问该消息的最终状态（提交或者回滚）
+
+  - 消息的三种状态
+
+    - commit提交状态，消费者可以消费
+    - rollback回滚事务消息，broker删除该消息，消费者不能消费
+    - unknown未知状态，broker需要回查确认该消息的状态
+
+  - 简要流程
+
+    1. 生成者发送半消息到MQServer
+    2. MQServer返回生成者接受成功
+    3. 生产者执行本地事务
+    4. 执行完后生产者再发送确认消息给MQServer，提交/回滚
+    5. 如果步骤4长时间未返回，MQServer发送消息回查
+    6. 生产者检查本地事务状态，然后回复MQServer提交或回滚
+
+    
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
@@ -919,6 +943,8 @@ npm run dev
 - @RequestParam与@GetMapping配合表示传入一个参数，@RequestParam（required = false）表示不是必填
 
 - @Aspect 注解使用实现aop
+
+- @Transactional(rollbackFor = Exception.class)//当发生异常时，数据库操作回滚
 
 # 技巧
 

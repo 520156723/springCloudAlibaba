@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import per.hqd.contentcenter.dao.content.ShareMapper;
 import per.hqd.contentcenter.domain.dto.content.ShareAuditDTO;
@@ -40,6 +41,7 @@ public class ShareService {
         return shareDTO;
     }
 
+    @Transactional(rollbackFor = Exception.class)//当发生异常时，数据库操作回滚
     public Share auditById(Integer id, ShareAuditDTO auditDTO) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
         if (share == null) {
@@ -61,6 +63,8 @@ public class ShareService {
             rocketMQTemplate.convertAndSend("add-bonus", msg);
             log.info("发送消息{}给主题add-bonus", msg.toString());
         }
+        // 假如还有一段业务逻辑，并且出了异常，如果用spring的@Transactional会出现，数据库更新审核状态回滚，但是mq加积分消息发送成功
+        // 业务逻辑阿巴啊巴
         return share;
     }
 
