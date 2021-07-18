@@ -12,6 +12,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import per.hqd.contentcenter.annotation.HqdAop;
@@ -42,6 +44,8 @@ public class TestController {
     private final TestService testService;
 
     private final RestTemplate restTemplate;
+
+    private final Source source;
 
     @GetMapping("/test")
     public List<Share> test() {
@@ -154,7 +158,7 @@ public class TestController {
 
 
     @GetMapping("/test/restTemplate-sentinel/{userId}")
-    public UserDTO test(@PathVariable Integer userId){
+    public UserDTO test(@PathVariable Integer userId) {
         return this.restTemplate.getForObject(
                 "http://user-center/users/{userId}",
                 UserDTO.class,
@@ -164,14 +168,27 @@ public class TestController {
 
 
     @GetMapping("/testaop1")
-    public String testAop1(){
+    public String testAop1() {
         return "执行testAop";
     }
 
     @GetMapping("/testaop2")
     @HqdAop(name = "testAop2")
-    public String testAop2(){
+    public String testAop2() {
         return "执行testAop";
     }
 
+    /**
+     * spring cloud stream测试
+     */
+    @GetMapping("/test-stream")
+    public String testStream() {
+        source.output()
+                .send(
+                        MessageBuilder
+                                .withPayload("消息体")
+                                .build()
+                );
+        return "success";
+    }
 }

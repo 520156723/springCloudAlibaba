@@ -885,18 +885,14 @@ npm run dev
 - rocketmq事务消息（二次确认）
 
   - 术语
-
     - 半消息：被标记为暂时无法消费的消息
     - 消息回查：当MQ Server 发现消息长时间处于半消息状态，回去向生产者发送请求，询问该消息的最终状态（提交或者回滚）
-
   - 消息的三种状态
-
     - commit提交状态，消费者可以消费
     - rollback回滚事务消息，broker删除该消息，消费者不能消费
     - unknown未知状态，broker需要回查确认该消息的状态
 
   - 简要流程
-
     1. 生成者发送半消息到MQServer
     2. MQServer返回生成者接受成功
     3. 生产者执行本地事务
@@ -904,7 +900,25 @@ npm run dev
     5. 如果步骤4长时间未返回，MQServer发送消息回查
     6. 生产者检查本地事务状态，然后回复MQServer提交或回滚
 
-    
+- Spring Could Stream
+
+  - 一个用于构建消息驱动的微服务框架
+
+  - 架构
+
+    应用、绑定器、消息中间件
+
+    Binder(目标绑定器)：与消息中间件通信的组件
+
+    Bindings(目标绑定)：连接应用与消息中间件的桥梁，用于消息的消费和生产。Bindings由Bingder创建
+
+    input、output是相对于微服务来说的，消息进入微服务就是in
+
+  - 使用
+
+    - 依赖spring-cloud-starter-stream-rocketmq
+    - 注解启动类加@EnableBinding(Source.class)
+    - 写配置
 
 # 注解
 
@@ -957,3 +971,5 @@ npm run dev
 - 集合判空CollectionUtils.isEmpty(list)
 
 - 看依赖版本用Dependency Analyzer
+
+- 抽一段代码成方法command+option+m
