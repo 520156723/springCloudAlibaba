@@ -961,6 +961,11 @@ npm run dev
     /actuator/health
   
     多了binders端点
+  
+  - [异常处理](https://www.imooc.com/article/290435)
+  
+    - 应用处理
+    - 系统处理
 
 # 注解
 
