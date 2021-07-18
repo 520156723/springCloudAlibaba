@@ -926,6 +926,10 @@ npm run dev
 
       消费者还要添加消费group配置
 
+  - 自定义接口发送消息
+
+    替换Source成为自定义的接口去发消息
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
@@ -964,6 +968,8 @@ npm run dev
 
 - @Aspect 注解使用实现aop
 
+  基于cglib的类继承AOP是不能在private方法上生效的
+
 - @Transactional(rollbackFor = Exception.class)//当发生异常时，数据库操作回滚
 
 # 技巧
@@ -979,3 +985,5 @@ npm run dev
 - 看依赖版本用Dependency Analyzer
 
 - 抽一段代码成方法command+option+m
+
+- 对选中的内容变成常量 command+option+c

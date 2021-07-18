@@ -53,6 +53,9 @@ spring:
         output:
           # 指定topic
           destination: stream-test-topic
+        # 跟MySource.class中@Output(MY_OUTPUT)的值一致
+        my-output:
+          destination: stream-my-topic
   application:
     # 表示本服务的名称
     name: content-center
