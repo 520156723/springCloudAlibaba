@@ -922,13 +922,19 @@ npm run dev
 
       消费者：@EnableBinding(Sink.class)
 
+      Source接口和Sink接口是SpringCloudStream提供的发送接收消息的接口
+
+      Processor接口继承了Source和Sink既可以发送也可以接收消息
+
     - 写配置
 
       消费者还要添加消费group配置
 
-  - 自定义接口发送消息
+  - 自定义接口
 
-    替换Source成为自定义的接口去发消息
+    替换Source成自定义的接口去发消息，接受消息的Sink也可以替换
+
+    需要在@EnableBinding({Sink.class, MySink.class})添加自定义接口MySink 
 
 # 注解
 

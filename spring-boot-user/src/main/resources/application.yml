@@ -33,11 +33,16 @@ spring:
           name-server: 127.0.0.1:9876
       # 连接桥梁
       bindings:
+        # 这个input是Sink里面的INPUT，通过ioc注入
         input:
           # 指定topic
           destination: stream-test-topic
           # 消费组
           group: binder-group
+        # 自定义input接口
+        my-input:
+          destination: stream-my-topic
+          group: my-group
   application:
     # 服务名称用-而不是_
     name: user-center
