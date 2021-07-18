@@ -917,8 +917,14 @@ npm run dev
   - 使用
 
     - 依赖spring-cloud-starter-stream-rocketmq
-    - 注解启动类加@EnableBinding(Source.class)
+
+    - 生产者：注解启动类加@EnableBinding(Source.class)
+
+      消费者：@EnableBinding(Sink.class)
+
     - 写配置
+
+      消费者还要添加消费group配置
 
 # 注解
 

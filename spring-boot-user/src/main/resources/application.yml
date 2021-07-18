@@ -27,6 +27,17 @@ spring:
           target-version: v1
         # 命名空间做隔离 这是dev的
         #namespace: 80a433f7-255c-4acd-a25b-ad53c7aa1628
+    stream:
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+      # 连接桥梁
+      bindings:
+        input:
+          # 指定topic
+          destination: stream-test-topic
+          # 消费组
+          group: binder-group
   application:
     # 服务名称用-而不是_
     name: user-center
@@ -48,6 +59,15 @@ info:
 # rocketmq
 rocketmq:
   name-server: 127.0.0.1:9876
+
+#修改某个包下生成的日志级别
+logging:
+  level:
+    # per.hqd: debug
+    # 配置Feign的日志级别，建立在UserCenterFeignClient的日志级别是debug的基础上的
+    # per.hqd.contentcenter.feignClient.UserCenterFeignClient: debug
+    # 避免控制台一直打印心跳信息
+    com.alibaba.nacos: error
 
 ---
 spring:
