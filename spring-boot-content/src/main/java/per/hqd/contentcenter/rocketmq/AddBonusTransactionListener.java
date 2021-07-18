@@ -2,6 +2,7 @@ package per.hqd.contentcenter.rocketmq;
 
 import com.alibaba.fastjson.JSON;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
@@ -17,6 +18,7 @@ import per.hqd.contentcenter.service.content.ShareService;
 
 @RocketMQTransactionListener(txProducerGroup = "tx-add-bonus-group")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class AddBonusTransactionListener implements RocketMQLocalTransactionListener {
 
     private final ShareService shareService;
@@ -42,8 +44,10 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
         try {
             this.shareService.auditByIdWithRocketMqLog(shareId, auditDTO, transactionId);
             // 如果到这一步服务挂了，需要下面checkLocalTransaction来查询事务状态
+            log.info("发送添加积分消息。。。shareId={}，transactionId={}", shareId, transactionId);
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {
+            log.info("发送添加积分消息失败。。。shareId={}，transactionId={}", shareId, transactionId);
             return RocketMQLocalTransactionState.ROLLBACK;
         }
     }

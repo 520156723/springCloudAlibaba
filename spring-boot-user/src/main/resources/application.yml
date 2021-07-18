@@ -36,13 +36,13 @@ spring:
         # 这个input是Sink里面的INPUT，通过ioc注入
         input:
           # 指定topic
-          destination: stream-test-topic
+          destination: add-bonus
           # 消费组
           group: binder-group
-        # 自定义input接口
-        my-input:
-          destination: stream-my-topic
-          group: my-group
+#        # 自定义input接口
+#        my-input:
+#          destination: stream-my-topic
+#          group: my-group
   application:
     # 服务名称用-而不是_
     name: user-center
@@ -61,9 +61,9 @@ info:
   author: hqd
   email: xxx@qq.com
 
-# rocketmq
-rocketmq:
-  name-server: 127.0.0.1:9876
+## rocketmq
+#rocketmq:
+#  name-server: 127.0.0.1:9876
 
 #修改某个包下生成的日志级别
 logging:
