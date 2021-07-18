@@ -920,7 +920,9 @@ npm run dev
 
     Bindings(目标绑定)：连接应用与消息中间件的桥梁，用于消息的消费和生产。Bindings由Bingder创建
 
-    input、output是相对于微服务来说的，消息进入微服务就是in
+    channel:
+
+    ​	input、output是相对于微服务来说的，消息进入微服务就是in
 
   - 使用
 
@@ -941,7 +943,7 @@ npm run dev
   - 自定义接口
 
     替换Source成自定义的接口去发消息，接受消息的Sink也可以替换
-
+  
     需要在@EnableBinding({Sink.class, MySink.class})添加自定义接口MySink 
     
   - [消息过滤](https://www.imooc.com/article/290424)
@@ -949,6 +951,16 @@ npm run dev
     - 注解实现
     - tags实现
     - sql语法过滤
+  
+  - 监控
+  
+    /actuator中多了两个端点
+  
+    bindings端点和channels端点
+  
+    /actuator/health
+  
+    多了binders端点
 
 # 注解
 
