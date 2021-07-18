@@ -820,9 +820,17 @@ npm run dev
 
   - 两个服务启动
 
-    1.name server
+    D:\microservice\rocketmq-all-4.5.1-bin-release\bin>下
+
+    1.name server 
+
+    ` .\mqnamesrv.cmd`
 
     2.broker
+
+    `.\mqbroker.cmd -n 127.0.0.1:9876 autoCreateTopicEnable=true`
+
+    
 
   - [控制台搭建](https://www.imooc.com/article/290092)
 
@@ -935,6 +943,12 @@ npm run dev
     替换Source成自定义的接口去发消息，接受消息的Sink也可以替换
 
     需要在@EnableBinding({Sink.class, MySink.class})添加自定义接口MySink 
+    
+  - [消息过滤](https://www.imooc.com/article/290424)
+  
+    - 注解实现
+    - tags实现
+    - sql语法过滤
 
 # 注解
 
