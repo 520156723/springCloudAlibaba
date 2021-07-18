@@ -1,5 +1,6 @@
 package per.hqd.contentcenter.rocketmq;
 
+import com.alibaba.fastjson.JSON;
 import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
@@ -31,10 +32,15 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         MessageHeaders headers = msg.getHeaders();
-        String transactionId = (String)headers.get(RocketMQHeaders.TRANSACTION_ID);
-        Integer shareId = (Integer) headers.get("shareId");
+        String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
+        Integer shareId = Integer.valueOf((String) headers.get("shareId"));
+        // 小坑
+        // 不能这么写，因为get出来是json字符串,应该转成java对象
+        // ShareAuditDTO auditDTO = (ShareAuditDTO) headers.get("dto");
+        String dtoString = (String) headers.get("dto");
+        ShareAuditDTO auditDTO = JSON.parseObject(dtoString, ShareAuditDTO.class);
         try {
-            this.shareService.auditByIdWithRocketMqLog(shareId, (ShareAuditDTO) arg, transactionId);
+            this.shareService.auditByIdWithRocketMqLog(shareId, auditDTO, transactionId);
             // 如果到这一步服务挂了，需要下面checkLocalTransaction来查询事务状态
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {

@@ -48,14 +48,20 @@ spring:
       rocketmq:
         binder:
           name-server: 127.0.0.1:9876
+        # 对应AddBonusTransactionListener的配置
+        bindings:
+          output:
+            producer:
+              transactional: true
+              group: tx-add-bonus-group
       # 连接桥梁
       bindings:
         output:
           # 指定topic
-          destination: stream-test-topic
+          destination: add-bonus
         # 跟MySource.class中@Output(MY_OUTPUT)的值一致
-        my-output:
-          destination: stream-my-topic
+#        my-output:
+#          destination: stream-my-topic
   application:
     # 表示本服务的名称
     name: content-center
@@ -124,11 +130,11 @@ feign:
     enabled: true
 
 # rocketmq
-rocketmq:
-  name-server: 127.0.0.1:9876
-  producer:
-    # 必须写group
-    group: test-group
+#rocketmq:
+#  name-server: 127.0.0.1:9876
+#  producer:
+#    # 必须写group
+#    group: test-group
 ---
 spring:
   config:

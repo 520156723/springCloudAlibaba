@@ -1,11 +1,12 @@
 package per.hqd.contentcenter.service.content;
 
+import com.alibaba.fastjson.JSON;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -34,9 +35,9 @@ public class ShareService {
 
     private final UserCenterFeignClient userCenterFeignClient;
 
-    private final RocketMQTemplate rocketMQTemplate;
-
     private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
+
+    private final Source source;
 
     public ShareDTO findById(Integer id) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
@@ -68,6 +69,7 @@ public class ShareService {
             // 如果通过审核，把消息发送到消息队列，让用户中心消费，并且加积分。发给add-bonus
             // 发送半消息
             String transactionId = UUID.randomUUID().toString();
+            /* 用rocketMQTemplate发送消息
             this.rocketMQTemplate.sendMessageInTransaction(
                     "tx-add-bonus-group",
                     "add-bonus",
@@ -85,8 +87,24 @@ public class ShareService {
                             .build(),
                     // arg额外参数, 埋点用来做修改审核
                     auditDTO
+            );*/
+            // 用SpringCloudStream发送消息
+            source.output().send(
+                    MessageBuilder
+                            .withPayload(
+                                    UserAddBonusMsgDTO.builder()
+                                            .userId(share.getUserId())
+                                            .bonus(50)
+                                            .build()
+                            )
+                            .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+                            .setHeader("shareId", id)
+                            // 有个坑，由于传入是String类型，强转会失败
+                            // .setHeader("dto", auditDTO)
+                            .setHeader("dto", JSON.toJSONString(auditDTO))// 把java对象转成json字符串
+                            .build()
             );
-        }else {
+        } else {
             // 拒绝时
             auditByIdInDB(id, auditDTO);
         }
@@ -95,7 +113,8 @@ public class ShareService {
 
     /**
      * 修改审核状态
-     * @param id share.id
+     *
+     * @param id       share.id
      * @param auditDTO 修改内容
      */
     @Transactional(rollbackFor = Exception.class)
@@ -116,9 +135,9 @@ public class ShareService {
         // 如果修改失败的，事务回滚走不到下面的代码，rocketmqlog表中就不会有记录
         this.rocketmqTransactionLogMapper.insertSelective(
                 RocketmqTransactionLog.builder()
-                .transactionId(transactionId)
-                .log("审核分享。。。")
-                .build()
+                        .transactionId(transactionId)
+                        .log("审核分享。。。")
+                        .build()
         );
     }
 

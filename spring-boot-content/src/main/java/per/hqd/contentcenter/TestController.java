@@ -22,7 +22,6 @@ import per.hqd.contentcenter.domain.dto.user.UserDTO;
 import per.hqd.contentcenter.domain.entity.content.Share;
 import per.hqd.contentcenter.feignClient.TestBaiduFeignClient;
 import per.hqd.contentcenter.feignClient.TestUserCenterFeignClient;
-import per.hqd.contentcenter.rocketmq.MySource;
 import per.hqd.contentcenter.sentineltest.TestControllerBlockHandlerClass;
 import per.hqd.contentcenter.service.content.TestService;
 
@@ -47,8 +46,6 @@ public class TestController {
     private final RestTemplate restTemplate;
 
     private final Source source;
-
-    private final MySource mySource;
 
     @GetMapping("/test")
     public List<Share> test() {
@@ -193,16 +190,5 @@ public class TestController {
                                 .build()
                 );
         return "success";
-    }
-
-    @GetMapping("/test-stream-2")
-    public String testStream2() {
-        mySource.output()
-                .send(
-                        MessageBuilder
-                                .withPayload("my消息体")
-                                .build()
-                );
-        return "success2";
     }
 }

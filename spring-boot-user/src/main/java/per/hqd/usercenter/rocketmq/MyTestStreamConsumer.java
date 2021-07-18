@@ -13,7 +13,6 @@ public class MyTestStreamConsumer {
     @StreamListener(MySink.MY_INPUT)
     public void receive(String messageBody){
         log.info("自定义接口消费：通过stream收到消息：messageBody = {}", messageBody);
-        throw new IllegalArgumentException("抛异常");
     }
 
     /**
