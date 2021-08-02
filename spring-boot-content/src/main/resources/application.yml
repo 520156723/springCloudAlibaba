@@ -135,6 +135,12 @@ feign:
 #  producer:
 #    # 必须写group
 #    group: test-group
+
+# jwt配置
+jwt:
+  secret: hqddddd
+  # 有效期，单位秒，默认2周
+  expire-time-in-second: 30
 ---
 spring:
   config:

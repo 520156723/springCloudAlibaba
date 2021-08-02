@@ -74,6 +74,11 @@ logging:
     # 避免控制台一直打印心跳信息
     com.alibaba.nacos: error
 
+# jwt配置
+jwt:
+  secret: hqddddd
+  # 有效期，单位秒，默认2周
+  expire-time-in-second: 30
 ---
 spring:
   config:

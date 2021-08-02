@@ -820,7 +820,7 @@ npm run dev
 
   - 两个服务启动
 
-    D:\microservice\rocketmq-all-4.5.1-bin-release\bin>下
+    D:\microservice\rocketmq-all-4.5.1-bin-release\bin
 
     1.name server 
 
@@ -969,6 +969,109 @@ npm run dev
   
   - [总结](https://www.imooc.com/article/290489)
 
+### 网关SpringCloudGateway
+
+- 为什么引入网关
+
+  前端请求->网关->各个微服务
+
+  多了一层，可以做统一管理，权限校验、负载均衡等
+
+- springcloudgateway介绍
+
+  - 底层是Netty、Reactor、WebFlux
+  - 优点
+    - 性能是Zuul 1.x的1.6倍，[性能对比]()(https://www.imooc.com/article/285068)
+    - 功能强大
+    - 容易扩展
+  - 缺点
+    - 不是servlet编程模型，而是Netty+Webflux，有学习成本
+    - 不能在servlet容器下工作，不能打成war包，不能部署到tomcat
+    - 不支持SpringBoot1.x
+
+- 网关项目创建
+
+  1. 新建一个项目导入选择gateway
+  2. 统一springboot、springcloud版本，整合整合springcloudalibaba和nacos
+  3. 配置yml
+
+- springcloudgateway转发规则
+
+  访问 ${GATEWAY_URL}/{微服务X}/**
+
+  会转发到微服务X的/**路径
+
+  例子：localhost:8040/user-center/users/1
+
+  会转发到user-center用户的/users/1接口
+
+### 认证预授权
+
+- 无状态与有状态
+
+  - 无状态
+
+    服务器不再去维持session（记录用户的登录状态）
+
+    实现：用户访问携带token，服务器做解密校验
+
+    优点：去中心化，无存储，简单易扩容缩容
+
+    缺点：服务端控制力不强（如改token过期时间）
+
+- 常用方案
+
+  - 处处安全方案（[[OAuth2实现单点登录SSO](https://www.cnblogs.com/cjsblog/p/10548022.html)](https://www.cnblogs.com/cjsblog/p/10548022.html)）
+
+    - Spring Cloud Security、Keycloak
+
+  - 外部无状态，内部有状态
+
+    场景：老服务用的session store，新服务用的是token
+
+    实现：用户访问带上sessionId和token，然后通过网关转发，如果转发到的是老服务用session验证，如果是新服务用token认证
+
+  - 网关认证授权，内部裸奔
+
+    网关去做token的解密和颁发 
+
+  - 内部裸奔改进版
+
+    网关不做token解密只做转发，认证授权中心服务颁发token， 每个微服务去做解密token
+
+- 访问控制模型
+
+  - RBAC（Role-Based access control）
+    - 为用户分配角色，为角色分配权限
+
+- JWT（json web token）：一个字符串
+
+  - 一个jwt组成
+
+    1.Header（头）：记录令牌类型、签名的算法
+
+    2.Payload（有效载荷）：携带用户信息
+
+    3.Signature（签名）：防止Token被篡改、确保安全性——计算出来的签名
+
+  - 两个公式
+
+    - Token = Base64(Header).Base64(Payload).Base64(Signature)
+
+      示例：aaaa.bbbb.cccc
+
+    - Signature = Header指定的签名算法(Base64(header).Base64(payload),秘钥)
+
+      如HS256（"aaaa.bbbb", 秘钥）
+
+  - [代码实现](https://www.imooc.com/article/290892)
+
+    - jjwt实现
+
+  
+
+  
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
@@ -1026,3 +1129,6 @@ npm run dev
 - 抽一段代码成方法command+option+m
 
 - 对选中的内容变成常量 command+option+c
+
+- 列出最近打开文件  ctrl + e
+
