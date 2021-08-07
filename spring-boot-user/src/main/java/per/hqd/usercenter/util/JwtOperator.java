@@ -77,7 +77,7 @@ public class JwtOperator {
      *
      * @return 过期时间
      */
-    private Date getExpirationTime() {
+    public Date getExpirationTime() {
         return new Date(System.currentTimeMillis() + this.expirationTimeInSecond * 1000);
     }
 

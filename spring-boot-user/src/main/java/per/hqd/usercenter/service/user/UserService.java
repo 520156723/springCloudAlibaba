@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import per.hqd.usercenter.dao.bonusEventLogMapper.BonusEventLogMapper;
 import per.hqd.usercenter.dao.user.UserMapper;
 import per.hqd.usercenter.domain.dto.messaging.UserAddBonusMsgDTO;
+import per.hqd.usercenter.domain.dto.user.UserLoginDTO;
 import per.hqd.usercenter.domain.entity.bonusEventLogMapper.BonusEventLog;
 import per.hqd.usercenter.domain.entity.user.User;
 
@@ -22,14 +23,14 @@ public class UserService {
 
     private final BonusEventLogMapper bonusEventLogMapper;
 
-    public User findById(Integer id){
+    public User findById(Integer id) {
         log.info("我被请求了");
         // select * from user where id=#{id}
         return this.userMapper.selectByPrimaryKey(id);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void addBonus(UserAddBonusMsgDTO msgDTO){
+    public void addBonus(UserAddBonusMsgDTO msgDTO) {
         //加积分(先查后写)
         Integer userId = msgDTO.getUserId();
         Integer bonus = msgDTO.getBonus();
@@ -47,5 +48,27 @@ public class UserService {
                         .build()
         );
         log.info("积分添加完毕。。。");
+    }
+
+    public User login(UserLoginDTO userLoginDTO, String openId) {
+        User user = this.userMapper.selectOne(
+                User.builder()
+                        .wxId(openId)
+                        .build()
+        );
+        if (user == null) {
+            User userToSave = User.builder()
+                    .wxId(openId)
+                    .wxNickname(userLoginDTO.getWxNickname())
+                    .roles("user") // 通过这种方式注册的都是普通用户
+                    .avatarUrl(userLoginDTO.getAvatarUrl())
+                    .createTime(new Date())
+                    .updateTime(new Date())
+                    .bonus(300)
+                    .build();
+            this.userMapper.insertSelective(userToSave);
+            return userToSave;
+        }
+        return user;
     }
 }

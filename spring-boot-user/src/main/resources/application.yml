@@ -77,8 +77,8 @@ logging:
 # jwt配置
 jwt:
   secret: hqddddd
-  # 有效期，单位秒，默认2周
-  expire-time-in-second: 30
+  # 有效期，单位秒
+  expire-time-in-second: 120
 ---
 spring:
   config:
