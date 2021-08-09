@@ -1084,6 +1084,12 @@ npm run dev
 
   - 代码编写，前端需要修改请求后端的url域名
 
+- aop实现登录状态检查
+  - 做法
+    - 法1：过滤器，校验token
+    - 法2：拦截器，校验token
+    - spring  aop，注解实现校验
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
@@ -1143,4 +1149,15 @@ npm run dev
 - 对选中的内容变成常量 command+option+c
 
 - 列出最近打开文件  ctrl + e
+
+- idea自带的调试，添加一个header
+
+  ```http
+  GET http://localhost:8081/users/1
+  # 添加一个header
+  X-token: eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwid3hOaWNrbmFtZSI6ImhxZCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjI4NTI2NDIwLCJleHAiOjE2Mjk3MzYwMjB9.F_dJO31Igw8SVi_kOghilEMCxhAhCDfZDaaZ7HdLy1g
+  
+  ```
+
+  
 

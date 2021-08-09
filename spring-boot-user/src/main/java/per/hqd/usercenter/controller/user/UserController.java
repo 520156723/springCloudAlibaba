@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import per.hqd.usercenter.auth.CheckLogin;
 import per.hqd.usercenter.domain.dto.user.JwtTokenRespDTO;
 import per.hqd.usercenter.domain.dto.user.LoginRespDTO;
 import per.hqd.usercenter.domain.dto.user.UserLoginDTO;
@@ -31,6 +32,7 @@ public class UserController {
 
     private final JwtOperator jwtOperator;
 
+    @CheckLogin
     @GetMapping("/{id}")
     public User findById(@PathVariable Integer id) {
         return this.userService.findById(id);
@@ -70,5 +72,18 @@ public class UserController {
                         .wxNickname(user.getWxNickname())
                         .build())
                 .build();
+    }
+
+    /**
+     * 假的登录验证
+     * @return
+     */
+    @GetMapping("/gen-token")
+    public String genToken(){
+        Map<String, Object> userInfo = new HashMap<>(3);
+        userInfo.put("id", 1);
+        userInfo.put("wxNickname", "hqd");
+        userInfo.put("role", "user");
+        return this.jwtOperator.generateToken(userInfo);
     }
 }
