@@ -1102,11 +1102,16 @@ npm run dev
 
   - 通过@RequestHeader
 
-  - 拦截器RequestInterceptor
+  - 实现拦截器RequestInterceptor（Feign的拦截器）
 
-    所有请求经过拦截器时，可以把token写入header。
+    所有feign请求经过拦截器时，可以把token写入header。
 
     这里的content相当于是user的客户端，没带token
+
+- RestTemplate传递Token
+
+  - 通过exchange（）
+  - 实现ClientHttpRequestInterceptor（RestTemplate的拦截器）
 
 # 注解
 

@@ -142,7 +142,7 @@ feign:
 jwt:
   secret: hqqqqqqqdddddddddddddddddddddddddddddd
   # 有效期，单位秒，默认2周
-  expire-time-in-second: 30
+  expire-time-in-second: 240
 ---
 spring:
   config:

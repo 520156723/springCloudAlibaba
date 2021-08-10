@@ -9,7 +9,10 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import per.hqd.contentcenter.interceptor.TestRestTemplateInterceptor;
 import tk.mybatis.spring.annotation.MapperScan;
+
+import java.util.Collections;
 
 @SpringBootApplication
 @MapperScan("per.hqd.contentcenter.dao")//扫描该包的接口
@@ -27,6 +30,13 @@ public class ContentApplication {
 	@LoadBalanced
 	@SentinelRestTemplate
 	public RestTemplate restTemplate(){
-		return new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate();
+		// 添加拦截器属性
+		restTemplate.setInterceptors(
+				Collections.singletonList(
+						new TestRestTemplateInterceptor()
+				)
+		);
+		return restTemplate;
 	}
 }

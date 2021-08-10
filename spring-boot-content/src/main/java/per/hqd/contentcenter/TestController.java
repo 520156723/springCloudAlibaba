@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +29,7 @@ import per.hqd.contentcenter.feignClient.TestUserCenterFeignClient;
 import per.hqd.contentcenter.sentineltest.TestControllerBlockHandlerClass;
 import per.hqd.contentcenter.service.content.TestService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -190,5 +195,18 @@ public class TestController {
                                 .build()
                 );
         return "success";
+    }
+
+    @GetMapping("/tokenRelay/{userId}")
+    public ResponseEntity<UserDTO> tokenRelay(@PathVariable Integer userId, HttpServletRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Token", request.getHeader("X-Token"));
+        return this.restTemplate.exchange(
+                "http://user-center/users/{userId}",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                UserDTO.class,
+                userId
+        );
     }
 }
