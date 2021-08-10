@@ -39,10 +39,10 @@ public class ShareService {
 
     private final Source source;
 
-    public ShareDTO findById(Integer id) {
+    public ShareDTO findById(Integer id, String token) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
         Integer userId = share.getUserId();
-        UserDTO userDTO = this.userCenterFeignClient.findById(userId);
+        UserDTO userDTO = this.userCenterFeignClient.findById(userId, token);
         // 消息装配 使用spring的对象装配工具
         ShareDTO shareDTO = new ShareDTO();
         BeanUtils.copyProperties(share, shareDTO);

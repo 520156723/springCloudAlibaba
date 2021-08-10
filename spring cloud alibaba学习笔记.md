@@ -1085,10 +1085,20 @@ npm run dev
   - 代码编写，前端需要修改请求后端的url域名
 
 - aop实现登录状态检查
+
   - 做法
+
     - 法1：过滤器，校验token
     - 法2：拦截器，校验token
     - spring  aop，注解实现校验
+
+  - 坑
+
+    用feign时调用微服务时没带token 
+
+- Feign传递Token
+
+  - 通过@RequestHeader
 
 # 注解
 
