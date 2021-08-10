@@ -1,4 +1,3 @@
-/*
 package per.hqd.contentcenter.feignClient.fallback;
 
 import org.springframework.stereotype.Component;
@@ -14,4 +13,3 @@ public class UserCenterFeignClientFallback implements UserCenterFeignClient {
         return userDTO;
     }
 }
-*/

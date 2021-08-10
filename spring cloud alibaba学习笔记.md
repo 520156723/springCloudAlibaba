@@ -1096,9 +1096,17 @@ npm run dev
 
     用feign时调用微服务时没带token 
 
+    客户端到内容中心的header里有token，但是用feign调用用户中心时是不会在header中带token的。
+
 - Feign传递Token
 
   - 通过@RequestHeader
+
+  - 拦截器RequestInterceptor
+
+    所有请求经过拦截器时，可以把token写入header。
+
+    这里的content相当于是user的客户端，没带token
 
 # 注解
 

@@ -115,9 +115,11 @@ logging:
 feign:
   client:
     config:
-      # 想调用的服务名
+      # 全局配置
       default:
         loggerLevel: FULL
+        requestInterceptors:
+          - per.hqd.contentcenter.interceptor.TokenRelayRequestInterceptor
   # 使用httpclient去做请求
   httpclient:
     enabled: true
@@ -138,7 +140,7 @@ feign:
 
 # jwt配置
 jwt:
-  secret: hqddddd
+  secret: hqqqqqqqdddddddddddddddddddddddddddddd
   # 有效期，单位秒，默认2周
   expire-time-in-second: 30
 ---

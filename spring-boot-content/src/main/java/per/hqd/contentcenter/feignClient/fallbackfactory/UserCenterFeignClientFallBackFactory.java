@@ -1,4 +1,3 @@
-/*
 package per.hqd.contentcenter.feignClient.fallbackfactory;
 
 import feign.hystrix.FallbackFactory;
@@ -23,4 +22,3 @@ public class UserCenterFeignClientFallBackFactory implements FallbackFactory<Use
         };
     }
 }
-*/

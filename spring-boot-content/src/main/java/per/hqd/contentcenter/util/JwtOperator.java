@@ -23,13 +23,13 @@ public class JwtOperator {
      * 秘钥
      * - 默认aaabbbcccdddeeefffggghhhiiijjjkkklllmmmnnnooopppqqqrrrsssttt
      */
-    @Value("${secret:aaabbbcccdddeeefffggghhhiiijjjkkklllmmmnnnooopppqqqrrrsssttt}")
+    @Value("${jwt.secret:aaabbbcccdddeeefffggghhhiiijjjkkklllmmmnnnooopppqqqrrrsssttt}")
     private String secret;
     /**
      * 有效期，单位秒
      * - 默认2周
      */
-    @Value("${expire-time-in-second:1209600}")
+    @Value("${jwt.expire-time-in-second:1209600}")
     private Long expirationTimeInSecond;
 
     /**
