@@ -38,7 +38,7 @@ public class ShareController {
         Map<String, Object> userInfo = new HashMap<>(3);
         userInfo.put("id", 1);
         userInfo.put("wxNickname", "hqd");
-        userInfo.put("role", "user");
+        userInfo.put("role", "admin");
         return this.jwtOperator.generateToken(userInfo);
     }
 }

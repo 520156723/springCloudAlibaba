@@ -1113,6 +1113,10 @@ npm run dev
   - 通过exchange（）
   - 实现ClientHttpRequestInterceptor（RestTemplate的拦截器）
 
+- 用户权限的验证
+
+  注解aop实现
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
@@ -1154,6 +1158,8 @@ npm run dev
   基于cglib的类继承AOP是不能在private方法上生效的
 
 - @Transactional(rollbackFor = Exception.class)//当发生异常时，数据库操作回滚
+
+- 注解上的@Retention(RetentionPolicy.RUNTIME)，表示注解和其内容可以在运行期取到
 
 # 技巧
 
