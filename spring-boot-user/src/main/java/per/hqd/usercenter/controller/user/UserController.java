@@ -2,6 +2,7 @@ package per.hqd.usercenter.controller.user;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -85,5 +86,13 @@ public class UserController {
         userInfo.put("wxNickname", "hqd");
         userInfo.put("role", "user");
         return this.jwtOperator.generateToken(userInfo);
+    }
+
+    /**
+     * 查看token信息
+     */
+    @GetMapping("/parse-token")
+    public Claims parseToken(String token){
+        return jwtOperator.getClaimsFromToken(token);
     }
 }

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/share")
+@RequestMapping("/shares")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ShareController {
 
