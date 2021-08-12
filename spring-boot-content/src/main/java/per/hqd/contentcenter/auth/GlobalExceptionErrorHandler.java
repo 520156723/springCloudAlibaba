@@ -25,7 +25,7 @@ public class GlobalExceptionErrorHandler {
         log.warn("发生SecurityException异常", e);
         return new ResponseEntity<ErrorBody>(
                 ErrorBody.builder()
-                        .body(e.getMessage())
+                        .body(e.getCause().getMessage())
                         .status(HttpStatus.UNAUTHORIZED.value())
                         .build(),
                 HttpStatus.UNAUTHORIZED

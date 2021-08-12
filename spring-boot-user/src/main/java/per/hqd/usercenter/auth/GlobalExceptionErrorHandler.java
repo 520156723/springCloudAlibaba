@@ -25,7 +25,7 @@ public class GlobalExceptionErrorHandler {
         log.warn("发生SecurityException异常", e);
         return new ResponseEntity<ErrorBody>(
                 ErrorBody.builder()
-                        .body("Token非法，用户不允许访问")
+                        .body(e.getCause().getMessage())
                         .status(HttpStatus.UNAUTHORIZED.value())
                         .build(),
                 HttpStatus.UNAUTHORIZED
