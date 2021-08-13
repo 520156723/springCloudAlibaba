@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        group: 1
+  application:
+    # 对应nacos上的 Date ID 为  content-center-dev.yaml
+    name: content-center
+  profiles:
+    active: prod

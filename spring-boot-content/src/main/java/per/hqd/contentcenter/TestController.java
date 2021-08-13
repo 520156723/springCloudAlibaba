@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +37,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RefreshScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestController {
 
@@ -208,5 +211,13 @@ public class TestController {
                 UserDTO.class,
                 userId
         );
+    }
+
+    @Value("${your.configuration: null}")
+    private String yourConfiguration;
+
+    @GetMapping("/test-config")
+    public String getYourConfiguration(){
+        return this.yourConfiguration;
     }
 }

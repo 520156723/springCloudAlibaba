@@ -1117,9 +1117,29 @@ npm run dev
 
   注解aop实现
 
-
-
 ### 文档生成工具[Awesome](http://www.itmuch.com/other/doc-generate/)
+
+### nacos配置中心
+
+- 整合nacos-config
+
+- 对应关系
+
+  ![image-20210813222135079](C:\Users\hanqiongding\AppData\Roaming\Typora\typora-user-images\image-20210813222135079.png)
+
+- 创文件bootstrap.yaml
+
+- nacos控制台上添加配置
+
+- 运行时修改配置生效 
+
+  类上加@RefreshScope
+
+- 控制台查看历史配置
+
+- 应用的配置共享
+
+  bootstrap.yaml的环境配置，在nacos上没有，会用默认的环境配置
 
 # 注解
 
@@ -1193,4 +1213,24 @@ npm run dev
   ```
 
   
+
+# 所需启动服务
+
+### MQ
+
+两个服务启动
+
+D:\microservice\rocketmq-all-4.5.1-bin-release\bin
+
+1.name server 
+
+` .\mqnamesrv.cmd`
+
+2.broker
+
+`.\mqbroker.cmd -n 127.0.0.1:9876 autoCreateTopicEnable=true`
+
+### nacos
+
+ D:\microservice\nacos\bin 的  .\startup.cmd
 
