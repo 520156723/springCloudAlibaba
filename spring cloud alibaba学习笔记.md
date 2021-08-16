@@ -1127,7 +1127,24 @@ npm run dev
 
   ![image-20210813222135079](C:\Users\hanqiongding\AppData\Roaming\Typora\typora-user-images\image-20210813222135079.png)
 
-- 创文件bootstrap.yaml
+- 创文件bootstrap.yaml（自动配置）
+
+  ```yaml
+  spring:
+    cloud:
+      nacos:
+        config:
+          server-addr: 127.0.0.1:8848
+          file-extension: yaml
+          group: 1
+    application:
+      # 对应nacos上的 Date ID 为  content-center-dev.yaml
+      name: content-center
+    profiles:
+      active: prod
+  ```
+
+  
 
 - nacos控制台上添加配置
 
@@ -1140,6 +1157,39 @@ npm run dev
 - 应用的配置共享
 
   bootstrap.yaml的环境配置，在nacos上没有，会用默认的环境配置
+
+  共享方式1：shared-dataids
+
+  共享方式2：ext-config
+
+  优先级：shared-dataids < ext-config < 自动配置
+
+- 引导上下文
+
+  优先级：远程配置 > 本地配置
+
+  在远程配置中可以开启允许本地配置覆盖
+
+  ```yaml
+  spring:
+    cloud:
+      config:
+        # 是否允许本地配置覆盖远程配置
+        override-none: true
+        # 一切以本地为准
+        allow-override: true
+        # 系统环境变量或者系统属性才能覆盖远程配置文件的配置
+        # 本地配置文件中的配置优先级低于远程配置e
+        override-system-properties: false
+  ```
+
+- 数据持久化
+
+  - 服务发现组件存在：~/nacos/naming
+  - 配置服务器：$NACOS_HOME/data/derby-data(内嵌的数据库)
+  - 配置快照：~/nacos/config
+
+- [搭建生产可用的nacos集群](https://www.imooc.com/article/288153)
 
 # 注解
 

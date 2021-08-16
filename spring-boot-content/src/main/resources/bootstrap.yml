@@ -4,18 +4,8 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
-        # 共享配置的DataId
-        # 越往后优先级越高
-        ext-config:
-          - data-id: common1.yaml
-            group: DEFAULT_GROUP
-            refresh: true
-          - data-id: common2.yaml
-            group: DEFAULT_GROUP
-            refresh: true
-
   application:
     # 对应nacos上的 Date ID 为  content-center-dev.yaml
     name: content-center
   profiles:
-    active: prod
+    active: dev
