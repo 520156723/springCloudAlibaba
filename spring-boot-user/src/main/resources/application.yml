@@ -46,6 +46,15 @@ spring:
   application:
     # 服务名称用-而不是_
     name: user-center
+  zipkin:
+    base-url: http://localhost:9411/
+    # 让nacos不会把上面的url当做服务名称
+    discoveryClientEnabled: false
+  sleuth:
+    # 抽样率 默认0.1（10%）
+    sampler:
+      # 全部监控数据上报数据库（生产不建议1.0）
+      probability: 1.0
 
 management:
   endpoint:
@@ -73,6 +82,8 @@ logging:
     # per.hqd.contentcenter.feignClient.UserCenterFeignClient: debug
     # 避免控制台一直打印心跳信息
     com.alibaba.nacos: error
+    # 为sleuth打印更多日志
+    org.springframework.cloud.sleuth: debug
 
 # jwt配置
 jwt:

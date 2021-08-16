@@ -71,6 +71,16 @@ spring:
   # 控制springaop启动
   aop:
     auto: true
+  # zipkin
+  zipkin:
+    base-url: http://localhost:9411/
+    # 让nacos不会把上面的url当做服务名称
+    discoveryClientEnabled: false
+    sleuth:
+      # 抽样率 默认0.1（10%）
+      sampler:
+        # 全部监控数据上报数据库（生产不建议1.0）
+        probability: 1.0
 # restTemplate
 resttemplate:
   # resttemplate整合sentinel

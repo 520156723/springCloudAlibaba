@@ -1191,6 +1191,61 @@ npm run dev
 
 - [搭建生产可用的nacos集群](https://www.imooc.com/article/288153)
 
+### 调用链监控sleuth
+
+- 调用链监控
+
+  - 是什么
+
+    用于快速定位问题，比如一个api调用发生异常，快速找到原因 
+
+  - 本质
+
+    服务a调用服务b
+
+    一个表，记录了服务a发起调用时、a获取调用结果时、b被调用时，b返回结果时的监控数据（如，服务名、api、所处状态、时间戳）。
+
+  - 实现工具
+
+    spring cloud sleuth + zipkin
+
+    skywalking + pinpoint
+
+- sleuth
+
+  - 是什么
+
+    是调用链监控的客户端，在每个微服务上负责产生监控数据
+
+  - 术语
+
+    - span（跨度）
+
+      每条数据就是一个span，是基本工作单元
+
+    - trace（跟踪）
+
+      一组span，如上面a调b产生的4个span就是一个trace
+
+    - annotation（标注）
+
+      - cs（client sent 客户端发送）：客户端发送一个请求，该annotation描述了span的开始。
+      - sr（server received 服务端接受）：服务端获取请求并准备处理它。
+      - ss（server sent服务端发送）：该annotation表明完成请求处理（当响应发回客户端时）
+      - cr（client received客户端接收）：span结束的标识。
+
+  - 使用
+
+    spring-starter-sleuth
+
+- zipkin
+
+  - 是什么
+
+    记录监控数据的数据库+界面
+
+  - [怎么用](https://www.imooc.com/article/291572)
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
@@ -1284,3 +1339,8 @@ D:\microservice\rocketmq-all-4.5.1-bin-release\bin
 
  D:\microservice\nacos\bin 的  .\startup.cmd
 
+### zipkin
+
+D:\microservice\zipkin 执行 java -jar .\zipkin-server-2.12.9-exec.jar
+
+访问http://127.0.0.1:9411/
