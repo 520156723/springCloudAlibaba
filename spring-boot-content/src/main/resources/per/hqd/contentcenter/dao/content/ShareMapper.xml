@@ -22,7 +22,7 @@
     <result column="reason" jdbcType="VARCHAR" property="reason" />
   </resultMap>
 
-  <select id="selectByParam" resultMap="BaseResultMap">
+  <select id="selectByParam" resultType="per.hqd.contentcenter.domain.entity.content.Share">
     select * from share
     <where>
       <if test="title != null and title != ''">

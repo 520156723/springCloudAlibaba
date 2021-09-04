@@ -155,6 +155,11 @@ jwt:
   secret: hqqqqqqqdddddddddddddddddddddddddddddd
   # 有效期，单位秒，默认2周
   expire-time-in-second: 240
+# mabatis
+mybatis:
+  configuration:
+    # 把表字段的下划线命名改为驼峰命名方式
+    map-underscore-to-camel-case: true
 ---
 spring:
   config:
