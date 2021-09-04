@@ -14,17 +14,21 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import per.hqd.contentcenter.dao.MidUserShareMapper.MidUserShareMapper;
 import per.hqd.contentcenter.dao.content.ShareMapper;
 import per.hqd.contentcenter.dao.rocketmqTransactionLogMapper.RocketmqTransactionLogMapper;
 import per.hqd.contentcenter.domain.dto.content.ShareAuditDTO;
 import per.hqd.contentcenter.domain.dto.content.ShareDTO;
 import per.hqd.contentcenter.domain.dto.messaging.UserAddBonusMsgDTO;
+import per.hqd.contentcenter.domain.dto.user.UserAddBonusDTO;
 import per.hqd.contentcenter.domain.dto.user.UserDTO;
+import per.hqd.contentcenter.domain.entity.MidUserShareMapper.MidUserShare;
 import per.hqd.contentcenter.domain.entity.content.Share;
 import per.hqd.contentcenter.domain.entity.rocketmqTransactionLogMapper.RocketmqTransactionLog;
 import per.hqd.contentcenter.domain.enums.AuditStatusEnum;
 import per.hqd.contentcenter.feignClient.UserCenterFeignClient;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -35,12 +39,10 @@ import java.util.UUID;
 public class ShareService {
 
     private final ShareMapper shareMapper;
-
     private final UserCenterFeignClient userCenterFeignClient;
-
     private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
-
     private final Source source;
+    private final MidUserShareMapper midUserShareMapper;
 
     public ShareDTO findById(Integer id) {
         Share share = this.shareMapper.selectByPrimaryKey(id);
@@ -171,5 +173,45 @@ public class ShareService {
         // 不分页的sql
         List<Share> shares = this.shareMapper.selectByParam(title);
         return new PageInfo<Share>(shares);
+    }
+
+    public Share exchangeById(Integer id, HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("id");
+        // 该分享是否存在
+        Share share = this.shareMapper.selectByPrimaryKey(id);
+        if (share == null) {
+            throw new IllegalArgumentException("该分享不存在");
+        }
+        // 兑换过直接返回
+        MidUserShare midUserShare = this.midUserShareMapper.selectOne(
+                MidUserShare.builder()
+                        .userId(userId)
+                        .shareId(id)
+                        .build()
+        );
+        if (midUserShare != null) {
+            return share;
+        }
+        // 积分是否足够
+        UserDTO userDTO = this.userCenterFeignClient.findById(userId);
+        Integer price = share.getPrice();
+        if (price > userDTO.getBonus()) {
+            throw new IllegalArgumentException("用户积分不够");
+        }
+        // 扣减积分
+        this.userCenterFeignClient.addBonus(
+                UserAddBonusDTO.builder()
+                        .userId(userId)
+                        .bonus(-price)
+                        .build()
+        );
+        // 记录扣减信息
+        this.midUserShareMapper.insert(
+                MidUserShare.builder()
+                        .userId(userId)
+                        .shareId(id)
+                        .build()
+        );
+        return share;
     }
 }

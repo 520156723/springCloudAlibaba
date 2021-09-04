@@ -10,6 +10,7 @@ import per.hqd.contentcenter.domain.entity.content.Share;
 import per.hqd.contentcenter.service.content.ShareService;
 import per.hqd.contentcenter.util.JwtOperator;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,5 +51,11 @@ public class ShareController {
             pageSize = 100;
         }
         return this.shareService.q(title, pageNum, pageSize);
+    }
+
+    @GetMapping("/exchange/{id}")
+    @CheckLogin
+    public Share exchangeById(@PathVariable Integer id, HttpServletRequest request){
+        return this.shareService.exchangeById(id, request);
     }
 }
