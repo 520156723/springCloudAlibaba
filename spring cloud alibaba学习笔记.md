@@ -1245,16 +1245,69 @@ npm run dev
     记录监控数据的数据库+界面
 
   - [怎么用](https://www.imooc.com/article/291572)
-  
+
   - 数据持久化
-  
+
     - elasticsearch
-  
+
       - 搭建
-  
+
         - [下载](http://www.elastic.co/cn/downloads/past-releases#elasticsearch)
-  
+
           注意es7开始需要jdk11
+        
+      - 启动 
+      
+        cd bin
+      
+        ./elasticsearch -d （后台启动）
+      
+      - 访问
+      
+        localhost:9200
+      
+      - 存数据到zipkin
+      
+        - [配置环境变量](https://github.com/openzipkin/zipkin/tree/master/zipkin-server#environment-variables)
+      
+          | 环境变量     |                | desc         |
+          | ------------ | -------------- | ------------ |
+          | STORAGE_TYPE | elasticsearch  | 指定存储类型 |
+          | ES_HOST      | localhost:9200 |              |
+          |              |                |              |
+      
+        - 带参数启动zipkin
+      
+          `STORAGE_TYPE=elasticsearch ES_HOSTS=localhost:9200 java -jar zipkin-server-2.12.9-exec.jar`
+    
+  - 看服务的依赖关系
+
+    [ZIpkin Dependencies](https://github.com/openzipkin/zipkin-dependencies)
+
+    - 执行命令看依赖分析
+
+    - 步骤：1下载 
+
+    - 其他命令
+
+      - 分析昨天的数据(oS/x下的命令)
+
+      STORAGE_TYPE=elasticsearch java -jar zipkin-dependencies.jar `date -uv-1d +%F`
+
+      - 分析昨天的数据( Linux下的命令)
+
+      STORAGE TYPE=elasticsearch java -jar zipkin-dependencies.jar `date -u -d '1 day ago’ +%F`
+
+      - 分析昨天的数据(oS/x下的命令)
+
+        STORAGE_TYPE=elasticsearch java -jar zipkin-dependencies.jar `date -uv-1d +%F`
+
+
+### 业务功能完善
+
+- mybatis分页
+  - 插件[mabatis-pagehelper](https://github.com/pagehelper/Mybatis-PageHelper)
+  - 小心冲突，看conflicts
 
 # 注解
 
@@ -1288,9 +1341,9 @@ npm run dev
   @GetMapping同理
 
   - @PostMapping和@RequestBody配合传json请求body
-  - @GetMapping和@PathVariable配合传url后的参数
+  - @GetMapping和@PathVariable配合传uri中占位的参数
 
-- @RequestParam与@GetMapping配合表示传入一个参数，@RequestParam（required = false）表示不是必填
+- @RequestParam与@GetMapping配合表示uri后的参数，@RequestParam（required = false）表示不是必填
 
 - @Aspect 注解使用实现aop
 
@@ -1299,6 +1352,12 @@ npm run dev
 - @Transactional(rollbackFor = Exception.class)//当发生异常时，数据库操作回滚
 
 - 注解上的@Retention(RetentionPolicy.RUNTIME)，表示注解和其内容可以在运行期取到
+
+- stream的peek和map区别
+
+  map会返回操作后的新元素
+
+  peek无返回，并且操作的是原来的元素
 
 # 技巧
 
@@ -1347,10 +1406,15 @@ D:\microservice\rocketmq-all-4.5.1-bin-release\bin
 
 ### nacos
 
- D:\microservice\nacos\bin 的  .\startup.cmd
+ d: ; cd D:\microservice\nacos\bin ;  .\startup.cmd
 
 ### zipkin
 
-D:\microservice\zipkin 执行 java -jar .\zipkin-server-2.12.9-exec.jar
+d: ; cd D:\microservice\zipkin ; java -jar .\zipkin-server-2.12.9-exec.jar
 
 访问http://127.0.0.1:9411/
+
+### ELASTICSEARCH
+
+`STORAGE_TYPE=elasticsearch ES_HOSTS=localhost:9200 java -jar zipkin-server-2.12.9-exec.jar`
+

@@ -1,7 +1,9 @@
 package per.hqd.contentcenter.controller.content;
 
 import com.github.pagehelper.PageInfo;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import per.hqd.contentcenter.auth.CheckLogin;
@@ -46,16 +48,22 @@ public class ShareController {
     @GetMapping("/q")
     public PageInfo<Share> q(@RequestParam(required = false) String title,
                              @RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                             @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+                             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+                             @RequestHeader(value = "X-Token", required = false) String token) {
         if (pageSize > 100) {
             pageSize = 100;
         }
-        return this.shareService.q(title, pageNum, pageSize);
+        Integer userId = null;
+        if (StringUtils.isBlank(token)) {
+            Claims claims = this.jwtOperator.getClaimsFromToken(token);
+            userId = (Integer) claims.get("id");
+        }
+        return this.shareService.q(title, pageNum, pageSize, userId);
     }
 
     @GetMapping("/exchange/{id}")
     @CheckLogin
-    public Share exchangeById(@PathVariable Integer id, HttpServletRequest request){
+    public Share exchangeById(@PathVariable Integer id, HttpServletRequest request) {
         return this.shareService.exchangeById(id, request);
     }
 }

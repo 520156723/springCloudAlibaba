@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -167,12 +168,34 @@ public class ShareService {
         System.out.println(forEntity.getStatusCode());
     }
 
-    public PageInfo<Share> q(String title, Integer pageNum, Integer pageSize) {
+    public PageInfo<Share> q(String title, Integer pageNum, Integer pageSize, Integer userId) {
         // 会切入下面那条不分页的sql， 自动拼接limit
         PageHelper.startPage(pageNum, pageSize);
         // 不分页的sql
         List<Share> shares = this.shareMapper.selectByParam(title);
-        return new PageInfo<Share>(shares);
+        // 处理过的share
+        List<Share> shareDeal;
+        // 未登录的显示的share没有下载链接, 登录的仅显示已经兑换过的分享链接
+        if (userId == null) {
+            shareDeal = shares.stream()
+                    .peek(share -> share.setDownloadUrl(null))
+                    .collect(Collectors.toList());
+        } else {
+            shareDeal = shares.stream()
+                    .peek(share -> {
+                        MidUserShare midUserShare = this.midUserShareMapper.selectOne(
+                                MidUserShare.builder()
+                                        .userId(userId)
+                                        .shareId(share.getId())
+                                        .build()
+                        );
+                        if (midUserShare == null) {
+                            share.setDownloadUrl(null);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
+        return new PageInfo<>(shareDeal);
     }
 
     public Share exchangeById(Integer id, HttpServletRequest request) {
