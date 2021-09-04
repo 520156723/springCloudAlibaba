@@ -1,6 +1,8 @@
 package per.hqd.contentcenter.service.content;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
@@ -23,6 +25,7 @@ import per.hqd.contentcenter.domain.entity.rocketmqTransactionLogMapper.Rocketmq
 import per.hqd.contentcenter.domain.enums.AuditStatusEnum;
 import per.hqd.contentcenter.feignClient.UserCenterFeignClient;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -160,5 +163,13 @@ public class ShareService {
         );
         System.out.println(forEntity.getBody());
         System.out.println(forEntity.getStatusCode());
+    }
+
+    public PageInfo<Share> q(String title, Integer pageNum, Integer pageSize) {
+        // 会切入下面那条不分页的sql， 自动拼接limit
+        PageHelper.startPage(pageNum, pageSize);
+        // 不分页的sql
+        List<Share> shares = this.shareMapper.selectByParam(title);
+        return new PageInfo<Share>(shares);
     }
 }

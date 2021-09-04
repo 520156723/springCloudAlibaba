@@ -120,6 +120,8 @@ logging:
     per.hqd.contentcenter.feignClient.UserCenterFeignClient: debug
     # 避免控制台一直打印心跳信息
     com.alibaba.nacos: error
+    # 开启查看执行的sql
+    per.hqd.contentcenter.dao.content: debug
 
 # Fegin配置
 feign:

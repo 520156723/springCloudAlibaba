@@ -1245,6 +1245,16 @@ npm run dev
     记录监控数据的数据库+界面
 
   - [怎么用](https://www.imooc.com/article/291572)
+  
+  - 数据持久化
+  
+    - elasticsearch
+  
+      - 搭建
+  
+        - [下载](http://www.elastic.co/cn/downloads/past-releases#elasticsearch)
+  
+          注意es7开始需要jdk11
 
 # 注解
 
