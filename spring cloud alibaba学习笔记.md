@@ -1308,6 +1308,77 @@ npm run dev
 - mybatis分页
   - 插件[mabatis-pagehelper](https://github.com/pagehelper/Mybatis-PageHelper)
   - 小心冲突，看conflicts
+  - stream.peek
+
+### 代码规范
+
+- 注释原则
+
+  - 每一步的主要流程
+  - 核心方法
+  - 条件、分支、判断前
+  - 注释统计工具插件statistic
+
+- [阿里巴巴代码规约](https://github.com/alibaba/p3c)
+
+  改到右上角有个勾
+
+- [SonaQube](imooc.com/article/291857)
+
+  - 是代码质量管理系统，
+
+### 微服务监控
+
+- 监控组件
+  - spring boot actuator
+  - sentinel dashboard
+  - spring cloud sleuth + zipkin
+
+- 让spring boot actuator可视化
+  - [spring boot admin](https://github.com/codecentric/spring-boot-admin)
+  - [官方文档](https://codecentric.github.io/spring-boot-admin/2.1.6/)
+  - loggers可动态修改日志级别
+  - metrics、heapdump、threaddump端点都可以监控jvm
+- java自带jvm监控工具
+  - jconsole
+    - 命令行输入jconsole
+  - jvisualvm
+    - 命令行输入jvisualvm
+
+- 分析GC日志、线程dump日志、堆dump可视化
+
+  - 启动参数vm option
+
+    - `-Xmx500m -XX:+PrintGCDetails -Xloggc:gc.log`
+
+      - 表示最大堆内存设置为5m
+
+      - 打印gc详情
+
+      - gc日志打印到gc.log里去
+
+  - 对gc日志可视化分析
+
+    - [GCEasy](https://gceasy.io/)   (替代品GCPlot)
+
+      - 把gc日志丢进去即可
+
+      - **Throughput**：jvm执行业务代码时间/jvm的总时间
+        - jvm总时间 = jvm执行业务代码时间+gc时间+。。
+
+  - 线程dump日志
+
+    - [FastThread](https://fastthread.io/)   (替代品spring-boot-admin)
+
+  - 堆dump日志
+
+    - [HeapHero](https://heaphero.io/)   (替代品jvisualvm)
+
+- 日志监控
+
+  ELK ( Elasticsearch + Logstash + Kibana )
+
+  [sleuth用ELK收集分析日志](imooc.com/article/291751)
 
 # 注解
 
