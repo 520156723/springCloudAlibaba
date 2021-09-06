@@ -1380,6 +1380,17 @@ npm run dev
 
   [sleuth用ELK收集分析日志](imooc.com/article/291751)
 
+### 完美融合异构微服务
+
+- spring cloud微服务可以完美调用其他非spring cloud的微服务
+
+  - 完美调用
+    - 服务发现、负载均衡、容错处理
+
+- [spring-cloud-wii](https://github.com/eacdy/spring-cloud-wii)
+
+  
+
 # 注解
 
 - @Component 加上该注解的类会被扫描到spring容器中进行管理
